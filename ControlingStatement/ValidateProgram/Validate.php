@@ -122,4 +122,7 @@ class Validate
     {
         echo "Enter Valid Data Expected ($dataTypes)\n";
     }
+    public function echoit($msg){
+        echo "$msg\n\n";
+    }
 }

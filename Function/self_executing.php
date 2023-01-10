@@ -1,5 +1,5 @@
 <?php
-(function () {
-    echo "Hello world!";
-   })();
-   
+$name = "Pritesh";
+(function ($name) {
+    echo "Hello $name!";
+})($name);

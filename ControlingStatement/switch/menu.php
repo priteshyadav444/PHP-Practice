@@ -1,7 +1,8 @@
 <?php
-require './Validate.php';
+require '../ValidateProgram/Validate.php';
 abstract class MenuDriven extends Validate
 {
+    public $menuItem = array(5=>"Exit");
     public abstract function displayMenu();
     public abstract function handleChoice($choice);
 }
