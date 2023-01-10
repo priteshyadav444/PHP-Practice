@@ -2,7 +2,7 @@
 include './StudentCollection.php';
 class StudentMenu extends StudentCollection
 {
-    private $menuItems = array(1 => 'Create New Records', 2 => 'View All Records', 3 => 'Delete Records', 5 => 'Exit');
+    private $menuItems = array(1 => 'Create New Records', 2 => 'View All Records', 3 => 'Delete Records', 4 => 'Update Records', 5 => 'Exit');
 
     public function showOption()
     {
@@ -49,6 +49,13 @@ class StudentMenu extends StudentCollection
             case '3':
                 try {
                     parent::deleteStudent();
+                } catch (Exception $ex) {
+                    echo $ex->getMessage() . "\n";;
+                }
+                break;
+            case '4':
+                try {
+                    parent::updateStudent();
                 } catch (Exception $ex) {
                     echo $ex->getMessage() . "\n";;
                 }

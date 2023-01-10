@@ -31,8 +31,7 @@ class Validate
     {
         if (self::isInt($input)) {
             return intval($input);
-        }
-        elseif(self::isfloat($input)){
+        } elseif (self::isfloat($input)) {
             return floatval($input);
         }
         return false;
@@ -40,9 +39,9 @@ class Validate
     // return string value or boolen (false) when invalid data
     // params: mixed
     // return type : string | bool
-    public static function getString($input)
+    public static function getString($input): string | bool
     {
-        if (self::isString($input)) {
+        if (self::isString($input) && !empty($input)) {
             $stringValue = (string)($input);
             return $stringValue;
         }
@@ -86,6 +85,22 @@ class Validate
         return $result;
     }
 
+    // helper function of validateInput check pass datattypes untill data match to $dataTypes
+    // params: $functionname : particular function for checking datatypes , $input : input data , $dataTypes : expected
+    // return type : params : $dataTypes 
+    private function handleInput($functionName, $input, $dataTypes)
+    {
+        $result = Validate::$functionName($input);
+        do {
+            if ($result === false) {
+                self::__displayError($dataTypes);
+                $result = Validate::$functionName(readline("Enter Input Again :\n"));
+            } else {
+                break;
+            }
+        } while (true);
+        return $result;
+    }
     // validate input unless pass datatypes doest match on console application
     // params: $input : passed data, $dataTypes : pass datatypes that  expected 
     // return type : params : $dataTypes
@@ -97,24 +112,6 @@ class Validate
             return $result;
         }
     }
-    // helper function of validateInput check pass datattypes untill data match to $dataTypes
-    // params: $functionname : particular function for checking datatypes , $input : input data , $dataTypes : expected
-    // return type : params : $dataTypes 
-    private function handleInput($functionName, $input, $dataTypes)
-    {
-        $result = Validate::$functionName($input);
-        var_dump($result);
-        do {
-            if ($result === false) {
-                self::__displayError($dataTypes);
-                $result = Validate::$functionName(readline("Enter Input Again :\n"));
-                var_dump($result);
-            } else {
-                break;
-            }
-        } while (true);
-        return $result;
-    }
     // display error message with expected Data Types 
     // params: $dataTypes : pass datatypes that  expected 
     // return type : void
@@ -122,7 +119,8 @@ class Validate
     {
         echo "Enter Valid Data Expected ($dataTypes)\n";
     }
-    public function echoit($msg){
+    public function echoit($msg)
+    {
         echo "$msg\n\n";
     }
 }

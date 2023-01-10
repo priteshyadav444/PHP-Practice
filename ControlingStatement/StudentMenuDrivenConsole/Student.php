@@ -37,8 +37,8 @@ class Student extends Person
     }
     public  function readData()
     {
-        $name = readLine("Enter Name : ");
-        $address = readLine("Enter Address : ");
+        $name = parent::validateInput(parent::extractString(readLine("Enter Name : ")),'string');
+        $address =  parent::validateInput(readLine("Enter Address : "),'string');
         $this->setCustomer($name, $address);
     }
     public function getNewId()
