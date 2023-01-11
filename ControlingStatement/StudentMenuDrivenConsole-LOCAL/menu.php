@@ -6,10 +6,8 @@ class StudentMenu extends StudentCollection
 
     public function showOption()
     {
-
-        foreach ($this->menuItems as $option => $message) {
-            echo "$option) $message \n";
-        }
+        foreach ($this->menuItems as $option => $message)
+            parent::echoit("$option) $message", 1);
     }
     public function showMenu()
     {
@@ -19,60 +17,33 @@ class StudentMenu extends StudentCollection
             if ($choice == 6) {
                 exit;
             }
-            try {
-                self::handleChoice($choice);
-                // echo "Result : " . self::getResult() . "\n\n";
-            } catch (Exception $ex) {
-                echo $ex->getMessage() . "\n";;
-            }
+            self::handleChoice($choice);
         }
     }
     public function handleChoice($choice)
     {
         switch ($choice) {
             case '1':
-                try {
-                    parent::createStudent();
-                } catch (Exception $ex) {
-                    echo $ex->getMessage() . "\n";;
-                }
+                parent::createStudent();
                 break;
             case '2':
-                try {
-                    parent::showAllStudent();
-                } catch (Exception $ex) {
-                    echo $ex->getMessage() . "\n";;
-                }
-
+                parent::showAllStudent();
                 break;
             case '3':
-                try {
-                    parent::deleteStudent();
-                } catch (Exception $ex) {
-                    echo $ex->getMessage() . "\n";;
-                }
+                parent::deleteStudent();
                 break;
             case '4':
-                try {
-                    parent::updateStudent();
-                } catch (Exception $ex) {
-                    echo $ex->getMessage() . "\n";;
-                }
+                parent::updateStudent();
                 break;
             case '5':
-                try {
-                    parent::searchStudent();
-                } catch (Exception $ex) {
-                    echo $ex->getMessage() . "\n";;
-                }
+                parent::searchStudent();
                 break;
             default:
-                self::echoit("Invalid Entry !!");
+                parent::errorHandler("DATABASE_EMPTY");
                 break;
         }
     }
 }
-
 
 $studentmMenu = new StudentMenu();
 $studentmMenu->showMenu();

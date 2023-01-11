@@ -14,41 +14,39 @@ class StudentCollection extends Validate
     public function showAllStudent()
     {
         if (count($this->objects) == 0) {
-            echo "No Record Found !! \n\n";
+            Validate::errorHandler('NO_DATA_FOUND');
             return;
         }
         foreach ($this->objects as $key => $obj) {
-            $currentObject = $obj;
-            $currentObject->getData();
+            $obj->getData();
         }
     }
 
     public function deleteStudent()
     {
         if (count($this->objects) == 0) {
-            parent::echoit("Dataset is Empty!!");
+            Validate::errorHandler('DATABASE_EMPTY');
             return;
         }
         $id = readLine("Enter Id : ");
         $flag = false;
         foreach ($this->objects as $key => $obj) {
-            $currentObject = $obj;
-            if ($currentObject->checkId($id)) {
+            if ($obj->checkId($id)) {
                 unset($this->objects[$key]);
                 $flag = true;
-                echo "Records Deleted \n\n";
+                parent::echoit("Records Deleted");
                 self::showAllStudent();
             }
         }
         if ($flag === false) {
-            echo "Record Not Found!!! \n\n";
+            parent::echoit("Record Not Found!!!", 1);
         }
     }
 
     public function searchStudent()
     {
         if (count($this->objects) == 0) {
-            parent::echoit("Dataset is Empty!!");
+            Validate::errorHandler('DATABASE_EMPTY');
             return;
         }
         $id = readLine("Enter Id To Search: ");
@@ -62,7 +60,7 @@ class StudentCollection extends Validate
             }
         }
         if ($flag === false) {
-            echo "Record Not Found!!! \n\n";
+            Validate::errorHandler('NO_DATA_FOUND');
         }
     }
 
@@ -70,7 +68,7 @@ class StudentCollection extends Validate
     {
         $flag = false;
         if (count($this->objects) == 0) {
-            parent::echoit("Dataset is Empty!!");
+            Validate::errorHandler('DATABASE_EMPTY');
             return;
         }
         $id = readLine("Enter Id to Update: ");
@@ -85,7 +83,7 @@ class StudentCollection extends Validate
             }
         }
         if ($flag === false) {
-            echo "Record Not Found!!! \n\n";
+            Validate::errorHandler('NO_DATA_FOUND');
         }
     }
 }
