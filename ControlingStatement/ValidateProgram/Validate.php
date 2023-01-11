@@ -91,12 +91,10 @@ class Validate
     private function handleInput($functionName, $input, $dataTypes)
     {
         $result = Validate::$functionName($input);
-        var_dump($result);
         do {
             if ($result === false) {
                 self::__displayError($dataTypes);
                 $result = Validate::$functionName(readline("Enter Input Again :\n"));
-                var_dump($result);
             } else {
                 break;
             }

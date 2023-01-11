@@ -1,15 +1,46 @@
 <?php
 include_once './Student.php';
 include_once '../ValidateProgram/Validate.php';
+include './StudentDB.php';
 
 class StudentCollection extends Validate
 {
     private $objects = array();
+    private $DB;
+    public function __construct()
+    {
+        $this->DB = new Connection();
+        self::populateStudent();
+    }
+    public function populateStudent()
+    {
+        $result = $this->DB->getStudents();
+        self::resetObjects();
+        if ($result->num_rows > 0) {
+            while ($row = $result->fetch_assoc()) {
+                $student = new Student($row['id'], $row['name'], $row['address']);
+                array_push($this->objects, $student);
+            }
+        }
+        // else{
+        //     parent::echoit("No Record Found!!");
+
+        // }
+    }
+    public function resetObjects()
+    {
+        $this->objects = array();
+    }
     public function createStudent()
     {
-        $student = new Student;
+        $student = new Student();
         $student->readData();
-        array_push($this->objects, $student);
+        if ($this->DB->insertStudent($student->getName(), $student->getAddress())) {
+            parent::echoit("Record Inserted!!");
+            self::populateStudent();
+        } else {
+            parent::echoit("Request Failed!!");
+        }
     }
     public function showAllStudent()
     {
@@ -29,17 +60,14 @@ class StudentCollection extends Validate
             parent::echoit("Dataset is Empty!!");
             return;
         }
-        $id = readLine("Enter Id : ");
+        $id = parent::extractInteger(readLine("Enter Id : "));
         $flag = false;
-        foreach ($this->objects as $key => $obj) {
-            $currentObject = $obj;
-            if ($currentObject->checkId($id)) {
-                unset($this->objects[$key]);
-                $flag = true;
-                echo "Records Deleted \n\n";
-                self::showAllStudent();
-            }
+        if ($this->DB->deleteStudent($id)) {
+            parent::echoit("Records Deleted \n\n");
+            self::populateStudent();
+            $flag = true;
         }
+
         if ($flag === false) {
             echo "Record Not Found!!! \n\n";
         }
@@ -77,11 +105,13 @@ class StudentCollection extends Validate
         foreach ($this->objects as $key => $obj) {
             $currentObject = $obj;
             if ($currentObject->checkId($id)) {
-                $currentObject->name = parent::validateInput(parent::extractString(readLine("Enter Name : ")), 'string');
-                $currentObject->address =  parent::validateInput(readLine("Enter Address : "), 'string');
-                $flag = true;
-                parent::echoit("Record Updated!!!");
-                self::showAllStudent();
+                $student = new Student();
+                $student->readData();
+                if ($this->DB->updateStudent($id, $student->getName(), $student->getAddress())) {
+                    parent::echoit("Records Updated \n\n");
+                    self::populateStudent();
+                    $flag = true;
+                }
             }
         }
         if ($flag === false) {
