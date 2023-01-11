@@ -2,7 +2,7 @@
 include './StudentCollection.php';
 class StudentMenu extends StudentCollection
 {
-    private $menuItems = array(1 => 'Create New Records', 2 => 'View All Records', 3 => 'Delete Records', 4 => 'Update Records', 5 => 'Exit');
+    private $menuItems = array(1 => 'Create New Records', 2 => 'View All Records', 3 => 'Delete Records',  4 => 'Update Records', 5 => 'Search Records', 6 => 'Exit');
 
     public function showOption()
     {
@@ -16,10 +16,9 @@ class StudentMenu extends StudentCollection
         while (true) {
             $this->showOption();
             $choice = readline("Enter Your Choice : ");
-            if ($choice == 5) {
+            if ($choice == 6) {
                 exit;
             }
-
             try {
                 self::handleChoice($choice);
                 // echo "Result : " . self::getResult() . "\n\n";
@@ -56,6 +55,13 @@ class StudentMenu extends StudentCollection
             case '4':
                 try {
                     parent::updateStudent();
+                } catch (Exception $ex) {
+                    echo $ex->getMessage() . "\n";;
+                }
+                break;
+            case '5':
+                try {
+                    parent::searchStudent();
                 } catch (Exception $ex) {
                     echo $ex->getMessage() . "\n";;
                 }

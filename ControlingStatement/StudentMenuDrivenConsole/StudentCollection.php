@@ -45,6 +45,27 @@ class StudentCollection extends Validate
         }
     }
 
+    public function searchStudent()
+    {
+        if (count($this->objects) == 0) {
+            parent::echoit("Dataset is Empty!!");
+            return;
+        }
+        $id = readLine("Enter Id To Search: ");
+        $flag = false;
+        foreach ($this->objects as $key => $obj) {
+            $currentObject = $obj;
+            if ($currentObject->checkId($id)) {
+                parent::echoit("\nRecords Found !!");
+                $currentObject->getData();
+                $flag = true;
+            }
+        }
+        if ($flag === false) {
+            echo "Record Not Found!!! \n\n";
+        }
+    }
+
     public function updateStudent()
     {
         $flag = false;

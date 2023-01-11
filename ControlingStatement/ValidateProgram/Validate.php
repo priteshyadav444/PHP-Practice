@@ -41,7 +41,7 @@ class Validate
     // return type : string | bool
     public static function getString($input): string | bool
     {
-        if (self::isString($input) && !empty($input)) {
+        if (self::isString($input) && !empty($input) && !self::isInt($input)) {
             $stringValue = (string)($input);
             return $stringValue;
         }
@@ -91,10 +91,12 @@ class Validate
     private function handleInput($functionName, $input, $dataTypes)
     {
         $result = Validate::$functionName($input);
+        var_dump($result);
         do {
             if ($result === false) {
                 self::__displayError($dataTypes);
                 $result = Validate::$functionName(readline("Enter Input Again :\n"));
+                var_dump($result);
             } else {
                 break;
             }

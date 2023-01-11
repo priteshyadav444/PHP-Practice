@@ -1,5 +1,6 @@
 <?php
     $square = fn($num) => $num * $num;
+    
     function square($input){
         return $input * $input;
     }
@@ -7,3 +8,5 @@
     var_dump($inputArray);
     $finalArray = array_map($square, $inputArray);
     var_dump($finalArray);
+
+    
