@@ -7,7 +7,7 @@ class StudentMenu extends StudentCollection
     public function showOption()
     {
         foreach ($this->menuItems as $option => $message)
-            parent::echoit("$option) $message", 1);
+            parent::echoit("$option) $message",1);
     }
     public function showMenu()
     {
