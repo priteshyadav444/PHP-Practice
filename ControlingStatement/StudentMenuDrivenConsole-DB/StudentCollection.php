@@ -10,9 +10,9 @@ class StudentCollection extends Validate
     public function __construct()
     {
         $this->DB = new Connection();
-        self::populateStudent();
+        self::popolateState();
     }
-    public function populateStudent()
+    public function popolateState()
     {
         $result = $this->DB->getStudents();
         self::resetObjects();
@@ -37,9 +37,9 @@ class StudentCollection extends Validate
         $student->readData();
         if ($this->DB->insertStudent($student->getName(), $student->getAddress())) {
             parent::echoit("Record Inserted!!");
-            self::populateStudent();
+            self::popolateState();
         } else {
-            parent::echoit("Request Failed!!");
+            Validate::echoit("Request Failed!!");
         }
     }
     public function showAllStudent()
@@ -48,10 +48,8 @@ class StudentCollection extends Validate
             echo "No Record Found !! \n\n";
             return;
         }
-        foreach ($this->objects as $key => $obj) {
-            $currentObject = $obj;
-            $currentObject->getData();
-        }
+        foreach ($this->objects as $key => $obj) 
+            $$obj->getData();
     }
 
     public function deleteStudent()
@@ -63,8 +61,7 @@ class StudentCollection extends Validate
         $id = parent::extractInteger(readLine("Enter Id : "));
         $flag = false;
         if ($this->DB->deleteStudent($id)) {
-            parent::echoit("Records Deleted \n\n");
-            self::populateStudent();
+            self::popolateState();
             $flag = true;
         }
 
@@ -79,12 +76,12 @@ class StudentCollection extends Validate
             parent::echoit("Dataset is Empty!!");
             return;
         }
-        $id = readLine("Enter Id To Search: ");
+        $id = Validate::extractInteger(readLine("Enter Id to Update: "));
         $flag = false;
         foreach ($this->objects as $key => $obj) {
             $currentObject = $obj;
             if ($currentObject->checkId($id)) {
-                parent::echoit("\nRecords Found !!");
+                Validate::echoit("\nRecords Found !!",1);
                 $currentObject->getData();
                 $flag = true;
             }
@@ -101,15 +98,15 @@ class StudentCollection extends Validate
             parent::echoit("Dataset is Empty!!");
             return;
         }
-        $id = readLine("Enter Id to Update: ");
+        $id = Validate::extractInteger(readLine("Enter Id to Update: "));
         foreach ($this->objects as $key => $obj) {
             $currentObject = $obj;
             if ($currentObject->checkId($id)) {
                 $student = new Student();
                 $student->readData();
                 if ($this->DB->updateStudent($id, $student->getName(), $student->getAddress())) {
-                    parent::echoit("Records Updated \n\n");
-                    self::populateStudent();
+                    Validate::echoit("Records Updated");
+                    self::popolateState();
                     $flag = true;
                 }
             }

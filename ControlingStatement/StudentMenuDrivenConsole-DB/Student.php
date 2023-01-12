@@ -16,7 +16,8 @@ class Student extends Validate
     public function getData()
     {
         echo "\n--------------------------------------- \n";
-        echo "Student Id :" . self::IdPrefix.$this->getId() . "\n";
+        echo "Id :". $this->getId() . "\n";
+        echo "College Id :" . self::IdPrefix.$this->getId() . "\n";
         echo "Student Name :" . $this->getName() . "\n";
         echo "Student Address :" . $this->getAddress() . "\n";
         echo "--------------------------------------- \n";
