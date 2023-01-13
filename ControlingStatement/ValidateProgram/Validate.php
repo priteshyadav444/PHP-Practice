@@ -1,5 +1,26 @@
 <?php
-class Validate
+class ObjectFormatter
+{
+    public function format(array $data = null, int $code = 200, string $statuscode = "SUCCESS")
+    {
+        $result = "";
+
+        for ($i = 0; $i < count($data); $i++) {
+            if ($i == count($data) - 1) {
+                $result  .= json_encode($data[$i], JSON_UNESCAPED_SLASHES);
+                break;
+            }
+            $result  .= json_encode($data[$i], JSON_UNESCAPED_SLASHES) . ",";
+        }
+
+
+        $res = json_encode(array('status' => $statuscode, 'code' => $code));
+        $res = substr($res, 0, strlen($res) - 1);
+        $res .= ",\"data\":[" . $result . "]}";
+        return $res;
+    }
+}
+class Validate extends ObjectFormatter
 {
     // Validate input is int or not 
     // @params: mixed
@@ -161,8 +182,8 @@ class Validate
             $temp .= "\n";
         echo $msg . $temp;
     }
-    public function stringLower($string1):bool
+    public function stringLower($string1): bool
     {
-        return (strtolower($string1)==$string1);
+        return (strtolower($string1) == $string1);
     }
 }
