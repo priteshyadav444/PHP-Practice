@@ -161,4 +161,8 @@ class Validate
             $temp .= "\n";
         echo $msg . $temp;
     }
+    public function stringLower($string1):bool
+    {
+        return (strtolower($string1)==$string1);
+    }
 }
