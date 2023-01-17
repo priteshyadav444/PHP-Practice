@@ -49,7 +49,7 @@ class StudentCollection extends Validate
             return;
         }
         foreach ($this->objects as $key => $obj) 
-            $$obj->getData();
+            $obj->getData();
     }
 
     public function deleteStudent()
