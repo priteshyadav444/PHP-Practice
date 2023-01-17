@@ -1,4 +1,3 @@
-ls
 <?php
 class Element
 {
@@ -13,6 +12,9 @@ class Element
 class ArrayOperation
 {
     private $inputArray = array();
+    public $name = "Check";
+    const constvar = 12;
+    static $staticvar = 123;
     function __construct($array = null)
     {
         $this->inputArray = $array;
@@ -83,33 +85,39 @@ class ArrayOperation
         return array_merge($array);
     }
 }
+$obj = new ArrayOperation();
+$classmethods = get_class_methods($obj);
+$classproperties = get_class_vars("ArrayOperation");
 
-$array2 = array('pritesh', 'nitesh', 'umesh', 'pritesh', 'nitesh', 'umesh');
-$arrayOpeartion = new ArrayOperation($array2);
-$arrayOpeartion->showArray();
-$arrayOpeartion->showArray($arrayOpeartion->filterByValues("pritesh"));
+$obj->showArray($classmethods);
+$obj->showArray($classproperties);
 
-
-
-
-
-$array1 = ['apples', 'grapes', 'papaya'];
-$arrayOpeartion = new ArrayOperation($array1);
-
-$arrayOpeartion->addValue('orange');
-
-$data = new Element("", "");
-$arrayOpeartion->addValue($data);
-$data = new Element("abc", "123");
-$arrayOpeartion->addValue($data);
+// $array2 = array('pritesh', 'nitesh', 'umesh', 'pritesh', 'nitesh', 'umesh');
+// $arrayOpeartion = new ArrayOperation($array2);
+// $arrayOpeartion->showArray();
+// $arrayOpeartion->showArray($arrayOpeartion->filterByValues("pritesh"));
 
 
-$arrayOpeartion->addValueAtStart('chico');
 
-$arrayOpeartion->addValue('chicko');
-echo $arrayOpeartion->getValueByIndex('abc');
 
-$array1 = ['apples', 'grapes', 'papaya'];
-$array2 = array('pritesh', 'nitesh', 'umesh', 'pritesh', 'nitesh', 'umesh');
 
-var_export($array1);
+// $array1 = ['apples', 'grapes', 'papaya'];
+// $arrayOpeartion = new ArrayOperation($array1);
+
+// $arrayOpeartion->addValue('orange');
+
+// $data = new Element("", "");
+// $arrayOpeartion->addValue($data);
+// $data = new Element("abc", "123");
+// $arrayOpeartion->addValue($data);
+
+
+// $arrayOpeartion->addValueAtStart('chico');
+
+// $arrayOpeartion->addValue('chicko');
+// echo $arrayOpeartion->getValueByIndex('abc');
+
+// $array1 = ['apples', 'grapes', 'papaya'];
+// $array2 = array('pritesh', 'nitesh', 'umesh', 'pritesh', 'nitesh', 'umesh');
+
+// var_export($array1);
