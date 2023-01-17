@@ -14,6 +14,7 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
     <script type="text/javascript" src="../js/data.js"></script>
 
+
 </head>
 
 
@@ -44,7 +45,7 @@
 */
     ?>
     <div class="container">
-        <table class="table">
+        <table class="table" id="studentTable">
             <thead>
                 <tr>
                     <th scope="col">Id</th>
@@ -55,7 +56,7 @@
                     <th scope="col">Delete</th>
                 </tr>
             </thead>
-            <tbody>
+            <tbody >
 
             </tbody>
         </table>
