@@ -1,14 +1,5 @@
 <?php
-class Element
-{
-    public $key = "";
-    public $value = "";
-    public function __construct($key, $value)
-    {
-        $this->key = $key;
-        $this->value = $value;
-    }
-}
+
 class ArrayOperation
 {
     private $inputArray = array();
@@ -74,17 +65,18 @@ class ArrayOperation
     {
         echo $filter;
         if (self::arrayLength($this->inputArray) == 0 or empty($filter)) return null;
-        $filteredArray = array_filter($this->inputArray,  function($val) use ($filter){
+        $filteredArray = array_filter($this->inputArray,  function ($val) use ($filter) {
             return ($val == $filter);
         });
         return $filteredArray;
     }
-    
+
     public function joinArray(...$array)
     {
         return array_merge($array);
     }
 }
+
 $obj = new ArrayOperation();
 $classmethods = get_class_methods($obj);
 $classproperties = get_class_vars("ArrayOperation");
@@ -92,7 +84,9 @@ $classproperties = get_class_vars("ArrayOperation");
 $obj->showArray($classmethods);
 $obj->showArray($classproperties);
 
-// $array2 = array('pritesh', 'nitesh', 'umesh', 'pritesh', 'nitesh', 'umesh');
+$array2 = array('pritesh', 'nitesh', 'umesh', 'pritesh', 'nitesh', 'umesh', 'multi' => array('pritesh', 'nitesh', 'umesh', 'pritesh', 'nitesh', 'umesh'));
+$obj->showArray($array2);
+
 // $arrayOpeartion = new ArrayOperation($array2);
 // $arrayOpeartion->showArray();
 // $arrayOpeartion->showArray($arrayOpeartion->filterByValues("pritesh"));
