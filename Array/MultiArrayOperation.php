@@ -144,7 +144,32 @@ class MultiArrayOperation
             echo "Element is not Available";
         }
     }
-    
+    private function unsetDublicate(&$inputArray, &$mapArray)
+    {
+        foreach ($inputArray as $key => &$value) {
+            if (is_array($value)) {
+                self::unsetDublicate($value, $mapArray);
+            } else {
+                if (!empty($mapArray[$value])) {
+                    unset($inputArray[$key]);
+                } else {
+                    if(empty($mapArray[$value])){
+                        $mapArray[$value] = 1;
+                    }
+                    else{
+                        $mapArray[$value]++;
+                    }
+                    
+                }
+            }
+        }
+    }
+    public function removeDublicate()
+    {
+        $mapArray = array();
+        self::unsetDublicate($this->data, $mapArray);
+        return true;
+    }
 }
 
 $arr = array('pritesh', 'nitesh', 'umasesh', 'pritesh', 'nitesh', 'umesh',  array('123', 'nitesh', '312', 'pritesh', '123', 'umesh'));
@@ -156,8 +181,8 @@ $obj->pushArray(array('y', 'x', 'u', 'v', 'u', array('asd', 'asddsa', 'asddsa', 
 // $obj->showArray();
 // $obj->mysort($obj->data, SortingType::ASSOC);
 $obj->showArray();
-$obj->isPresent('x');
-
+$obj->removeDublicate();
+$obj->showArray();
 // echo $obj->findElement('op', 123);
 // array_walk($obj->data, function($element){
 //     echo "Element => \n"; 
