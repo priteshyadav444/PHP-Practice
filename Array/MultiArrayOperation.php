@@ -127,22 +127,24 @@ class MultiArrayOperation
     public function isPresent($element)
     {
         self::$result = "";
-        if(self::inArray($this->data, $element)){
+        if (self::inArray($this->data, $element)) {
             $path = "";
-            $pathKeys = explode(",",self::$result);
+            $pathKeys = explode(",", self::$result);
             array_reverse($pathKeys);
             var_dump($pathKeys);
-            foreach($pathKeys as $value){
-                $path .= $value;
-                $path .= "=>";
+            foreach ($pathKeys as $value) {
+                var_dump($value);
+                if (!empty($value)) {
+                    $path .= $value;
+                    $path .= "=>";
+                }
             }
             echo "Element Position {$path} {$element}";
-        }
-        else{
+        } else {
             echo "Element is not Available";
         }
     }
-
+    
 }
 
 $arr = array('pritesh', 'nitesh', 'umasesh', 'pritesh', 'nitesh', 'umesh',  array('123', 'nitesh', '312', 'pritesh', '123', 'umesh'));
