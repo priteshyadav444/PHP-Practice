@@ -5,6 +5,7 @@ enum SortingType
     case ASSOC;
     case NUMERIC;
 };
+
 class MultiArrayOperation
 {
     public $data = array();
@@ -79,7 +80,7 @@ class MultiArrayOperation
 
         return false;
     }
-    public function getSort($case)
+    public function getSortType($case)
     {
         $sorting = match ($case) {
             SortingType::ASSOC => 'asort',
@@ -87,13 +88,13 @@ class MultiArrayOperation
         };
         return $sorting;
     }
-    public function mysort(&$inputArray, SortingType $type)
+    public function mySort(&$inputArray, SortingType $type)
     {
-        $sort = self::getSort($type);
+        $sort = self::getSortType($type);
         $sort($inputArray);
         foreach ($inputArray as &$element) {
             if (is_array($element)) {
-                self::mysort($element, $type);
+                self::mySort($element, $type);
             }
         }
         return $inputArray;
@@ -153,13 +154,11 @@ class MultiArrayOperation
                 if (!empty($mapArray[$value])) {
                     unset($inputArray[$key]);
                 } else {
-                    if(empty($mapArray[$value])){
+                    if (empty($mapArray[$value])) {
                         $mapArray[$value] = 1;
-                    }
-                    else{
+                    } else {
                         $mapArray[$value]++;
                     }
-                    
                 }
             }
         }
@@ -177,19 +176,8 @@ $obj = new MultiArrayOperation($arr);
 $obj->pushArray(array('y', 'x', 'u', 'v', 'u', array('asd', 'asddsa', 'asddsa', 'asdasdz', 'asdasd', 'asd', array('sad', 'pk', 'umesh', 'sad', 'asd', 'hh' => 'op'))), 6);
 
 
-
-// $obj->showArray();
-// $obj->mysort($obj->data, SortingType::ASSOC);
 $obj->showArray();
 $obj->removeDublicate();
 $obj->showArray();
-// echo $obj->findElement('op', 123);
-// array_walk($obj->data, function($element){
-//     echo "Element => \n"; 
-//     print_r($element);
-// });
-echo "\n";
-// $obj->showArray();
 
-// echo $obj->findElement('op', 123);
-// $obj->showArray();
+echo "\n";
