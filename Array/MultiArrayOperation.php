@@ -1,5 +1,10 @@
 <?php
-include './Element.php';
+include './Object.php';
+enum SortingType
+{
+    case ASSOC;
+    case NUMERIC;
+};
 class MultiArrayOperation
 {
     public $data = array();
@@ -62,7 +67,7 @@ class MultiArrayOperation
         }
         return false;
     }
-    
+
     public function findElement($element, $replace)
     {
         $flag = false;
@@ -74,19 +79,45 @@ class MultiArrayOperation
 
         return false;
     }
+    public function getSort($case)
+    {
+        $sorting = match ($case) {
+            SortingType::ASSOC => 'asort',
+            SortingType::NUMERIC => 'sort'
+        };
+        return $sorting;
+    }
+    public function mysort(&$inputArray, SortingType $type)
+    {
+        $sort = self::getSort($type);
+        $sort($inputArray);
+        foreach ($inputArray as &$element) {
+            if (is_array($element)) {
+                self::mysort($element, $type);
+            }
+        }
+        return $inputArray;
+    }
+
+
 }
 
 $arr = array('pritesh', 'nitesh', 'umasesh', 'pritesh', 'nitesh', 'umesh',  array('123', 'nitesh', '312', 'pritesh', '123', 'umesh'));
 $obj = new MultiArrayOperation($arr);
-
-$obj->pushArray(array('pr', 'ni', 'um', 'kk', 'uu', array('asd', 'pasdk', 'asd', 'sad', 'sad', 'asd', array('sad', 'pk', 'umesh', 'sad', 'asd', 'hh' => 'op'))), 6);
-
+$obj->pushArray(array('y', 'x', 'u', 'v', 'u', array('asd', 'asddsa', 'asddsa', 'asdasdz', 'asdasd', 'asd', array('sad', 'pk', 'umesh', 'sad', 'asd', 'hh' => 'op'))), 6);
 
 
+
+// $obj->showArray();
+// $obj->mysort($obj->data, SortingType::ASSOC);
 $obj->showArray();
-echo $obj->findElement('op', 123);
-$obj->showArray();
+$obj->isPresent('x');
 
+// echo $obj->findElement('op', 123);
+// array_walk($obj->data, function($element){
+//     echo "Element => \n"; 
+//     print_r($element);
+// });
 echo "\n";
 // $obj->showArray();
 
