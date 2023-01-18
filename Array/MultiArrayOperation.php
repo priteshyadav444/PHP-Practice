@@ -99,6 +99,49 @@ class MultiArrayOperation
         return $inputArray;
     }
 
+    public function inArray($array, $element)
+    {
+        $flag = false;
+        foreach ($array as $key => $value) {
+            if (is_array($value)) {
+                $flag = self::inArray($value, $element);
+                if ($flag == true) {
+                    self::$result .= $key;
+                    self::$result .= ',';
+                    break;
+                }
+            }
+            if ($value == $element) {
+                self::$result .= $key;
+                self::$result .= ',';
+                $flag = true;
+                break;
+            }
+        }
+
+        if ($flag == true) {
+            return true;
+        }
+        return false;
+    }
+    public function isPresent($element)
+    {
+        self::$result = "";
+        if(self::inArray($this->data, $element)){
+            $path = "";
+            $pathKeys = explode(",",self::$result);
+            array_reverse($pathKeys);
+            var_dump($pathKeys);
+            foreach($pathKeys as $value){
+                $path .= $value;
+                $path .= "=>";
+            }
+            echo "Element Position {$path} {$element}";
+        }
+        else{
+            echo "Element is not Available";
+        }
+    }
 
 }
 
