@@ -3,10 +3,13 @@ include './Element.php';
 class MultiArrayOperation
 {
     public $data = array();
+    public static $result = "";
+
     public function __construct($default = null)
     {
         $this->data = $default;
     }
+
     public function pushArray(array $inputArray, $index = null): bool
     {
         if (isset($inputArray)) {
@@ -33,23 +36,22 @@ class MultiArrayOperation
 
         print_r($array);
     }
-    public static $result = "";
-    public function recursive($array, $element,$replace)
+    public function recursive(&$array, $element, $replace)
     {
         $flag = false;
-        foreach ($array as $key => &$val) {
-            if (is_array($val)) {
-                $flag = self::recursive($val, $element,$replace);
+        foreach ($array as $key => &$value) {
+            // call recurshuve function when value is array (nested array)
+            if (is_array($value)) {
+                $flag = self::recursive($value, $element, $replace);
                 if ($flag == true) {
                     self::$result .= $key;
-                    $val = $replace;
                     break;
                 }
             }
-
-            if ($val == $element) {
+            // replace value with $replace value it will replace actual value because refrences
+            if ($value == $element) {
+                $array[$key] = $replace;
                 self::$result .= $key;
-                $val = $replace;
                 $flag = true;
                 break;
             }
@@ -60,36 +62,31 @@ class MultiArrayOperation
         }
         return false;
     }
+    
     public function findElement($element, $replace)
     {
         $flag = false;
         self::$result = "";
         $flag = self::recursive($this->data, $element, $replace);
         strrev(self::$result);
-        
-        $path = "";
-        for ($i=0; $i < strlen(self::$result); $i++) { 
-            echo self::$result[$i];
-            $path = $path . "[".self::$result[$i]."]";
-        }
-        echo $path;
-        $this->data [$path] = 123;
-        // if ($flag == true)
-        //     return $re
+        if ($flag == true)
+            return self::$result;
 
         return false;
     }
 }
 
-$arr = array('pritesh', 'nitesh', 'umasesh', 'pritesh', 'nitesh', 'umesh',  array('pritesh', 'nitesh', 'umesh', 'pritesh', 'nitesh', 'umesh'));
+$arr = array('pritesh', 'nitesh', 'umasesh', 'pritesh', 'nitesh', 'umesh',  array('123', 'nitesh', '312', 'pritesh', '123', 'umesh'));
 $obj = new MultiArrayOperation($arr);
 
-$obj->pushArray(array('pritesh', 'nitesh', 'umesh', 'pritesh', 'nitesh', 'umesh', array('pritesh', 'pk', 'umesh', 'pritesh', 'nitesh', 'umesh', array('pritesh', 'pk', 'umesh', 'pritesh', 'nitesh',  'op'))), 4);
+$obj->pushArray(array('pr', 'ni', 'um', 'kk', 'uu', array('asd', 'pasdk', 'asd', 'sad', 'sad', 'asd', array('sad', 'pk', 'umesh', 'sad', 'asd', 'hh' => 'op'))), 6);
 
 
 
 $obj->showArray();
 echo $obj->findElement('op', 123);
+$obj->showArray();
+
 echo "\n";
 // $obj->showArray();
 
