@@ -169,15 +169,39 @@ class MultiArrayOperation
         self::unsetDublicate($this->data, $mapArray);
         return true;
     }
+    // set $result variable with value count in array. where key is distict value and its as value.
+    public function recursiveCountValues($inputArray)
+    {
+        foreach ($inputArray as $key => $val) {
+            if (is_array($val)) {
+                self::recursiveCountValues($val);
+            } else {
+                if (empty(self::$result[$val])) {
+                    self::$result[$val] = 1;
+                } else {
+                    self::$result[$val] = self::$result[$val] + 1;
+                }
+            }
+        }
+    }
+
+    public function countValues()
+    {
+        self::$result = array();
+        self::recursiveCountValues($this->data, self::$result);
+        return self::$result;
+    }
 }
 
 $arr = array('pritesh', 'nitesh', 'umasesh', 'pritesh', 'nitesh', 'umesh',  array('123', 'nitesh', '312', 'pritesh', '123', 'umesh'));
 $obj = new MultiArrayOperation($arr);
-$obj->pushArray(array('y', 'x', 'u', 'v', 'u', array('asd', 'asddsa', 'asddsa', 'asdasdz', 'asdasd', 'asd', array('sad', 'pk', 'umesh', 'sad', 'asd', 'hh' => 'op'))), 6);
+$obj->pushArray(array('y', 'x', 'u', 'v', 'u', array('asd', 'asddsa', 'asddsa', 'asdasdz', 'asdasd', 'asd', array('sad', 'pk', 'umesh', 'sad', 'asd', 'hh' => 'op', 'pritesh'))), 6);
 
+
+// $obj->showArray();
+// $obj->removeDublicate();
 
 $obj->showArray();
-$obj->removeDublicate();
-$obj->showArray();
-
+echo "Count Array \n";
+print_r($obj->countValues($obj->data));
 echo "\n";
