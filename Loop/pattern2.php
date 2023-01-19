@@ -19,15 +19,13 @@ function pattern($height)
 
         if ($i <= ($height / 2)) {
             $till++;
-        } elseif($i > ($height / 2)+1) {
+        } elseif ($i > ($height / 2) + 1) {
             $till--;
-        }
-        else{
-            
+        } else {
         }
 
         for ($j = 1; $j <= $till; $j++) {
-           if ($j == 1) {
+            if ($j == 1) {
                 echo "*";
             } else {
                 echo " *";
