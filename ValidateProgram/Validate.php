@@ -1,23 +1,12 @@
 <?php
 class ObjectFormatter
 {
-    public function format(array $data = null, int $code = 200, string $statuscode = "SUCCESS")
+    public function format(array $data = [], int $code = 200, string $statuscode = "SUCCESS")
     {
-        $result = "";
+        $keys = array('statuscode', 'code', 'data');
+        $values = array($statuscode, $code, $data);
 
-        for ($i = 0; $i < count($data); $i++) {
-            if ($i == count($data) - 1) {
-                $result  .= json_encode($data[$i], JSON_UNESCAPED_SLASHES);
-                break;
-            }
-            $result  .= json_encode($data[$i], JSON_UNESCAPED_SLASHES) . ",";
-        }
-
-
-        $res = json_encode(array('status' => $statuscode, 'code' => $code));
-        $res = substr($res, 0, strlen($res) - 1);
-        $res .= ",\"data\":[" . $result . "]}";
-        return $res;
+        return json_encode(array_combine($keys, $values));
     }
 }
 class Validate extends ObjectFormatter

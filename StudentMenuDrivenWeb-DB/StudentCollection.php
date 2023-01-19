@@ -17,7 +17,7 @@ class StudentCollection extends Validate
         if ($result->num_rows > 0) {
             while ($row = $result->fetch_assoc()) {
                 $student = new Student($row['id'], $row['name'], $row['address']);
-                array_push($this->objects,$student);
+                array_push($this->objects, $student);
             }
         }
         print_r(Validate::format($this->objects, 200, "DATA_FOUND"));
@@ -115,5 +115,6 @@ class StudentCollection extends Validate
 if (isset($_SERVER['REQUEST_METHOD']) == 'GET') {
     header("Content-Type: application/json");
     $student = new StudentCollection();
-   $student->getAll();
+    print_r($student->getAll());
 }
+
