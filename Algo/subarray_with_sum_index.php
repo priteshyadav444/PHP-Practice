@@ -24,5 +24,5 @@ function solve($inputArray, $length, $sum)
     }
 }
 
-$arr = [9, 1, 8, 3, 5, 2, 1, 3, 2];
-solve($arr, count($arr), 23);
+$arr = [9, 1, -12, 3, 5, 2, 1, 3, 2];
+solve($arr, count($arr), -1);
