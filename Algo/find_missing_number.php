@@ -8,5 +8,5 @@ function findMissing($inputArray, $length)
     }
     return abs($result -= ($length + 1));
 }
-$testArray = [6, 1, 2, 8, 3, 4, 7, 10, 5];
+$testArray = [9, 1, 2, 8, 3, 4, 7, 10, 5];
 print_r(findMissing($testArray, count($testArray)));
