@@ -203,5 +203,7 @@ $obj->pushArray(array('y', 'x', 'u', 'v', 'u', array('asd', 'asddsa', 'asddsa', 
 
 $obj->showArray();
 echo "Count Array \n";
-print_r($obj->countValues($obj->data));
+// print_r($obj->countValues($obj->data));
 echo "\n";
+
+print_r(json_encode($obj->data));
