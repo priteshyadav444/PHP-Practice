@@ -24,3 +24,5 @@ function solve($inputArray, $length, $sum)
         echo "Current Sum: $currentsum (Start : $start And End : $end)\n";
     }
 }
+
+
