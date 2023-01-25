@@ -9,7 +9,6 @@ function solve($inputArray, $length)
         $currentLength = 0;
         for ($j = 0; $j < strlen($currentString) and $j < strlen($firstString); $j++) {
             if ($currentString[$j] == $firstString[$j]) {
-                echo "$currentString[$j] CC ";
                 $currentLength++;
             } else {
                 break;
