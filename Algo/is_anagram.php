@@ -15,7 +15,7 @@ function solve($string1, $string2)
         if (!isset($map[$string2[$i]])) {
             return -1;
         } else {
-            $map[$string1[$i]]--;
+            $map[$string2[$i]]--;
         }
     }
     foreach ($map as $value) {
@@ -23,8 +23,8 @@ function solve($string1, $string2)
             return false;
         }
     }
-    return 1;
+    return true;
 }
 
 
-print_r(solve('tgzonrrftzq', 'tqzzrtnrftg'));
+var_dump(solve('tgzonrrftzq', 'tqzzrtnrftg'));
