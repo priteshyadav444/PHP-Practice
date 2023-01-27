@@ -48,7 +48,7 @@ class StudentCollection extends Validate
             echo "No Record Found !! \n\n";
             return;
         }
-        foreach ($this->objects as $key => $obj) 
+        foreach ($this->objects as $key => $obj)
             $obj->getData();
     }
 
@@ -81,7 +81,7 @@ class StudentCollection extends Validate
         foreach ($this->objects as $key => $obj) {
             $currentObject = $obj;
             if ($currentObject->checkId($id)) {
-                Validate::echoit("\nRecords Found !!",1);
+                Validate::echoit("\nRecords Found !!", 1);
                 $currentObject->getData();
                 $flag = true;
             }

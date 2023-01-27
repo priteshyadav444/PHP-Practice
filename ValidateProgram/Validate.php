@@ -82,7 +82,7 @@ class Validate extends ObjectFormatter
         return $result;
     }
 
-    // extract only sting charecter from the the input
+    // extract only string charecter from the the input
     // @params: mixed
     // @return type : string
     public function extractString($input)
@@ -130,7 +130,7 @@ class Validate extends ObjectFormatter
         }
     }
 
-    // display error message o fmapped Error code
+    // display error message o mapped Error code
     // @params: $errorCode : error Code of Error Message
     // @return type : void
     public function errorHandler($errorCode, $dataTypes = null)
