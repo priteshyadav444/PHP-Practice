@@ -1,9 +1,11 @@
 <?php
 class ObjectFormatter
 {
-    public function format(array $data = null, int $code = 200, string $statuscode = "SUCCESS")
+    public function format(array $data = [], int $code = 200, string $statuscode = "SUCCESS")
     {
-        $result = array('status' => $statuscode, 'code' => $code, 'data' => $data);
-        return json_encode($result);
+        $keys = array('statuscode', 'code', 'data');
+        $values = array($statuscode, $code, $data);
+
+        return json_encode(array_combine($keys, $values));
     }
 }
