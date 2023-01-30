@@ -175,4 +175,11 @@ class Validate extends ObjectFormatter
     {
         return (strtolower($string1) == $string1);
     }
+    public function ValidateFormInput($data)
+    {
+        $data = trim($data);
+        $data = stripslashes($data);
+        $data = htmlspecialchars($data);
+        return $data;
+    }
 }
