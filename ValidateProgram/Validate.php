@@ -1,6 +1,10 @@
 <?php
+
+namespace ValidateClass;
+
 class ObjectFormatter
 {
+
     public function format(array $data = [], int $code = 200, string $statuscode = "SUCCESS")
     {
         $keys = array('statuscode', 'code', 'data');
@@ -9,7 +13,21 @@ class ObjectFormatter
         return json_encode(array_combine($keys, $values));
     }
 }
-class Validate extends ObjectFormatter
+
+class ErrorHandler extends ObjectFormatter
+{
+    private $errors = array();
+    public function setError($newError, $key)
+    {
+        array_push($this->errors, array($key => $newError));
+    }
+    public function all()
+    {
+        return $this->errors;
+    }
+}
+
+class Validate extends ErrorHandler
 {
     // Validate input is int or not 
     // @params: mixed
@@ -133,21 +151,25 @@ class Validate extends ObjectFormatter
     // display error message o mapped Error code
     // @params: $errorCode : error Code of Error Message
     // @return type : void
-    public function errorHandler($errorCode, $dataTypes = null)
+    public function errorHandler($errorCode, $dataTypes = null, $keys = "", $return = false)
     {
         $errorMessage = match ($errorCode) {
             'INVALID_DATATYPE' => 'Enter Valid Data Expected',
             'INVALID_OPTION' => 'Enter option is In Valid',
             'NO_DATA_FOUND' => 'No Record Found!!',
             'DATABASE_EMPTY' => 'Dataset is Empty!!!!',
+            'FIELD_REQUIRED' => "$keys Field Required ",
             default => "Unexpected Error",
         };
-
-        if ($errorCode == 'INVALID_DATATYPE' && $dataTypes != null) {
-            self::__displayError($errorMessage, $dataTypes);
-            return;
+        if ($return == true) {
+            return $errorMessage;
+        } else {
+            if ($errorCode == 'INVALID_DATATYPE' && $dataTypes != null) {
+                self::__displayError($errorMessage, $dataTypes);
+                return;
+            }
+            self::__displayError($errorMessage);
         }
-        self::__displayError($errorMessage);
     }
 
     // display error message with expected Data Types 
@@ -175,11 +197,15 @@ class Validate extends ObjectFormatter
     {
         return (strtolower($string1) == $string1);
     }
-    public function ValidateFormInput($data)
+    public function senitizeInput($data)
     {
         $data = trim($data);
         $data = stripslashes($data);
         $data = htmlspecialchars($data);
         return $data;
+    }
+    public function isEmpty($input): bool
+    {
+        return empty($input);
     }
 }
