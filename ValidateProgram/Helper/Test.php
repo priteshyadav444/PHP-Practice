@@ -1,5 +1,6 @@
 <?php
-trait Test{
+trait Test
+{
     public function test($testCases, $functionName)
     {
         foreach ($testCases as $input => $output) {

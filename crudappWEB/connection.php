@@ -11,9 +11,10 @@ class Connection
   private $password = "";
   private $db = "student_database";
   private $connection;
+
   public function __construct()
   {
-    // Create connection
+    # Create connection
     $this->connection = new mysqli($this->servername, $this->username, $this->password, $this->db) or die("Connect failed: %s\n" . $this->connection->error);
     if ($this->connection->connect_error) {
       die("Connection failed: " . $this->connection->connect_error);
@@ -25,11 +26,13 @@ class Connection
     mysqli_close($this->connection);
   }
 
-  public function getConnection(){
+  public function getConnection()
+  {
     return $this->connection;
   }
 
-  public function insertListing($name, $email, $gender, $address, $qualification){
+  public function insertListing($name, $email, $gender, $address, $qualification)
+  {
     $result = $this->connection->query("INSERT INTO student (id, name, email, gender, address, qualification) VALUES (NULL, '" . $name . "', '" . $email . "', '" . $gender . "', '" . $address . "', '" . $qualification . "')");
     return $result;
   }
@@ -56,5 +59,3 @@ class Connection
     return $result;
   }
 }
-
-?>
