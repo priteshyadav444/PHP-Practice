@@ -180,6 +180,10 @@ class Validate extends ErrorHandler
     {
         return (self::getLength($input) >= $length);
     }
+    public static function checkMaximum($input, $length): bool
+    {
+        return (self::getLength($input) <= $length);
+    }
     // Extract only int from the the input
     // @params: mixed
     // @return type : int | float
@@ -249,41 +253,6 @@ class Validate extends ErrorHandler
         }
     }
 
-    // display error message o mapped Error code
-    // @params: $errorCode : error Code of Error Message
-    // @return type : void
-    // public function errorHandler($errorCode, $dataTypes = null, $keys = "", $return = false)
-    // {
-    //     $errorMessage = match ($errorCode) {
-    //         'INVALID_DATATYPE' => 'Enter Valid Data Expected',
-    //         'INVALID_DATATYPE_INT' => "$keys Must be $dataTypes",
-    //         'INVALID_DATATYPE_STRING' => "$keys Must be $dataTypes",
-    //         'INVALID_OPTION' => 'Enter option is In Valid',
-    //         'NO_DATA_FOUND' => 'No Record Found!!',
-    //         'DATABASE_EMPTY' => 'Dataset is Empty!!!!',
-    //         'FIELD_REQUIRED' => "$keys field required",
-    //         default => "Unexpected Error",
-    //     };
-    //     if ($return == true) {
-    //         return $errorMessage;
-    //     } else {
-    //         if ($errorCode == 'INVALID_DATATYPE' && $dataTypes != null) {
-    //             self::__displayError($errorMessage, $dataTypes);
-    //             return;
-    //         }
-    //         self::__displayError($errorMessage);
-    //     }
-    // }
-
-    // display error message with expected Data Types 
-    // @params: $dataTypes : pass datatypes that  expected 
-    // @return type : void
-    // private function __displayError($message, $dataTypes = null)
-    // {
-    //     $message = $dataTypes == null ? $message : $message . " Expectded ($dataTypes)";
-    //     self::echoit($message);
-    // }
-    // echo with two line
     public function echoit($msg, $newLine = 2)
     {
         if ($newLine < 1) {

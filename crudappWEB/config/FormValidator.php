@@ -11,12 +11,12 @@ class FormValidator extends  Validate
         foreach ($validations as $key => $validation) {
             if (array_key_exists($key, $data)); {
                 $data[$key] = Validate::senitizeInput($data[$key]);
-                $this->validateInput($key, $data[$key], $validation);
+                $this->validateKey($key, $data[$key], $validation);
             }
         }
     }
     # iterrate though all the validation like by exploding | pipe assign
-    public function validateInput($key, $value, $validations = "")
+    public function validateKey($key, $value, $validations = "")
     {
         $validations = explode("|", $validations);
 
@@ -25,14 +25,14 @@ class FormValidator extends  Validate
             if ($validationCode != false) {
                 if ($validationCode == 'CHECK_MINIMUM' || $validationCode == 'CHECK_MINIMUM') {
                     $meta = substr($validationType, 4,);
-                    $this->handleValidation($key, $value, $validationCode, $meta);
+                    $this->performValidation($key, $value, $validationCode, $meta);
                 } else {
-                    $this->handleValidation($key, $value, $validationCode);
+                    $this->performValidation($key, $value, $validationCode);
                 }
             }
         }
     }
-    private function handleValidation($key, $value, $validationType, $meta = null)
+    private function performValidation($key, $value, $validationType, $meta = null)
     {
 
         if ($validationType == "FIELD_REQUIRED") {
@@ -57,6 +57,10 @@ class FormValidator extends  Validate
         }
         if ($validationType == "CHECK_MINIMUM") {
             if (Validate::checkMinimum($value, $meta) == false) {
+                Validate::setError(Validate::getErrorMessage($validationType, $key, '', $meta), $key);
+            }
+        }if ($validationType == "CHECK_MAXIMUM") {
+            if (Validate::checkMaximum($value, $meta) == false) {
                 Validate::setError(Validate::getErrorMessage($validationType, $key, '', $meta), $key);
             }
         }
