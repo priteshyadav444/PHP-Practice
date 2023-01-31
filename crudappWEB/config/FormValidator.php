@@ -19,11 +19,12 @@ class FormValidator extends  Validate
     public function validateInput($key, $value, $validations = "")
     {
         $validations = explode("|", $validations);
+
         foreach ($validations as $validationType) {
             $validationCode = $this->getValidationType($validationType);
             if ($validationCode != false) {
                 if ($validationCode == 'CHECK_MINIMUM' || $validationCode == 'CHECK_MINIMUM') {
-                    $meta = substr($validationType, 3);
+                    $meta = substr($validationType, 4,);
                     $this->handleValidation($key, $value, $validationCode, $meta);
                 } else {
                     $this->handleValidation($key, $value, $validationCode);
@@ -56,7 +57,7 @@ class FormValidator extends  Validate
         }
         if ($validationType == "CHECK_MINIMUM") {
             if (Validate::checkMinimum($value, $meta) == false) {
-                Validate::setError(Validate::getErrorMessage($validationType, $key, 'email'), $key);
+                Validate::setError(Validate::getErrorMessage($validationType, $key, '', $meta), $key);
             }
         }
     }
@@ -64,7 +65,7 @@ class FormValidator extends  Validate
     private function getValidationType($input)
     {
         $minmax = substr($input, 0, 3);
-        if ($minmax == 'max' || $minmax = 'min') {
+        if ($minmax == "max" || $minmax == "min") {
             $input = $minmax;
         }
         $validationType = match ($input) {

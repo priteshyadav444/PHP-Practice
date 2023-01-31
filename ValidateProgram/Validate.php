@@ -53,7 +53,7 @@ class ErrorHandler extends ObjectFormatter
     // display error message mapped Error code
     // @params: $errorCode : error Code of Error Message
     // @return type : void
-    public function errorHandler($errorCode, $dataTypes = null, $keys = "", $return = false)
+    public function errorHandler($errorCode, $dataTypes = null, $keys = "", $return = false, $meta = null)
     {
         $errorMessage = match ($errorCode) {
             'INVALID_DATATYPE' => "Enter Valid Data Expected $dataTypes",
@@ -64,7 +64,8 @@ class ErrorHandler extends ObjectFormatter
             'NO_DATA_FOUND' => 'No Record Found!!',
             'DATABASE_EMPTY' => 'Dataset is Empty!!!!',
             'FIELD_REQUIRED' => "$keys field required",
-
+            'MINIMUM_LENGTH_REQUIRED' => "$keys minimum length $meta required",
+            'MAXIMUM_LENGTH_REQUIRED' => "$keys maximum length $meta required",
             default => "Unexpected Validation Error",
         };
         if ($return == true) {
@@ -77,16 +78,18 @@ class ErrorHandler extends ObjectFormatter
             self::__displayError($errorMessage);
         }
     }
-    public function getErrorMessage($validationType, $keys, $dataTypes = null)
+    public function getErrorMessage($validationType, $keys, $dataTypes = null, $meta = null)
     {
         $errorCode = match ($validationType) {
             'CHECK_DATA_INT' => 'INVALID_DATATYPE_INT',
             'CHECK_DATA_STRING' => 'INVALID_DATATYPE_STRING',
             'CHECK_DATA_EMAIL' => 'INVALID_DATATYPE_EMAIL',
             'FIELD_REQUIRED' => 'FIELD_REQUIRED',
+            'CHECK_MINIMUM' => 'MINIMUM_LENGTH_REQUIRED',
+            'CHECK_MAXIMUM' => 'MAXIMUM_LENGTH_REQUIRED',
             default => "UNEXPECTED_VALIDATION_CODE"
         };
-        return $this->errorHandler($errorCode, $dataTypes, $keys, true);
+        return $this->errorHandler($errorCode, $dataTypes, $keys, true, $meta);
     }
     // display error message with expected Data Types 
     // @params: $dataTypes : pass datatypes that  expected 
@@ -170,10 +173,13 @@ class Validate extends ErrorHandler
     }
     public static function getLength($input)
     {
-        if(empty($input)) return 0;
+        if (empty($input)) return 0;
         return strlen($input);
     }
-
+    public static function checkMinimum($input, $length): bool
+    {
+        return (self::getLength($input) >= $length);
+    }
     // Extract only int from the the input
     // @params: mixed
     // @return type : int | float
