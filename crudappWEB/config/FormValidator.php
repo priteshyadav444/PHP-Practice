@@ -81,6 +81,12 @@ class FormValidator extends  Validate
                 Validate::setError(Validate::getErrorMessage($validationType, $key, 'string'), $key);
             }
         }
+        if ($validationType == "CHECK_DATA_DECIMAL") {
+            // print_r(Validate::isFloat($value));
+            if (Validate::isFloat($value) == false) {
+                Validate::setError(Validate::getErrorMessage($validationType, $key, 'float'), $key);
+            }
+        }
         if ($validationType == "CHECK_DATA_EMAIL") {
             if (Validate::isEmail($value) == false) {
                 Validate::setError(Validate::getErrorMessage($validationType, $key, 'email'), $key);
@@ -129,6 +135,7 @@ class FormValidator extends  Validate
             'required' => "FIELD_REQUIRED",
             'numeric' => "CHECK_DATA_INT",
             'string' => "CHECK_DATA_STRING",
+            'decimal' => "CHECK_DATA_DECIMAL",
             'email' => "CHECK_DATA_EMAIL",
             'min' => "CHECK_MINIMUM",
             'max' => "CHECK_MAXIMUM",

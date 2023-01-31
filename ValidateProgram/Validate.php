@@ -64,7 +64,7 @@ class ErrorHandler extends ObjectFormatter
     /**
      * return if errors present for all keys as well as particular key
      *
-     * @param  mixed $key (to check for partucular key is errors present or not)
+     * @param  mixed $key : to check for partucular key is errors present or not
      * @return bool
      */
     public function isError($key = null): bool
@@ -96,7 +96,8 @@ class ErrorHandler extends ObjectFormatter
             'INVALID_DATATYPE' => "Enter Valid Data Expected $dataTypes",
             'INVALID_DATATYPE_INT' => "$key must be $dataTypes",
             'INVALID_DATATYPE_STRING' => "$key must be $dataTypes",
-            'INVALID_DATATYPE_EMAIL' => "$key must be valid $dataTypes format",
+            'INVALID_DATATYPE_DECIMAL' => "$key must be $dataTypes",
+            'INVALID_DATATYPE_EMAIL' => "$key must be $dataTypes",
             'INVALID_OPTION' => 'Enter option is In Valid',
             'NO_DATA_FOUND' => 'No Record Found!!',
             'DATABASE_EMPTY' => 'Dataset is Empty!!!!',
@@ -136,6 +137,7 @@ class ErrorHandler extends ObjectFormatter
         $errorCode = match ($validationType) {
             'CHECK_DATA_INT' => 'INVALID_DATATYPE_INT',
             'CHECK_DATA_STRING' => 'INVALID_DATATYPE_STRING',
+            'CHECK_DATA_DECIMAL', 'INVALID_DATATYPE_DECIMAL',
             'CHECK_DATA_EMAIL' => 'INVALID_DATATYPE_EMAIL',
             'FIELD_REQUIRED' => 'FIELD_REQUIRED',
             'CHECK_MINIMUM' => 'MINIMUM_LENGTH_REQUIRED',
@@ -151,7 +153,7 @@ class ErrorHandler extends ObjectFormatter
     // @return type : void
     private static function __displayError($message, $dataTypes = null)
     {
-        $message = $dataTypes == null ? $message : $message . " Expectded ($dataTypes)";
+        $message = $dataTypes == null ? $message : $message . " Expected ($dataTypes)";
         self::echoit($message);
     }
     /**
@@ -195,12 +197,15 @@ class Validate extends ErrorHandler
      * isfloat : Validate input is flaot or not 
      *
      * @param  mixed $input
-     * @return bool
+     * @return bool {@see isInt()}
+     * @link https://taskeasy.in
      */
     public static function isfloat($input): bool
     {
-        $intValue = floatval($input);
-        return ($input == $intValue);
+        $floatval = (float)$input;
+        if (strpos($input, '.') == false)
+            if (self::isInt($input)) return false;
+        return ($floatval == $input);
     }
     /**
      * isString : Validate input is string or not 
@@ -340,7 +345,7 @@ class Validate extends ErrorHandler
             }
         }
         return $result;
-    }  
+    }
     /**
      * handleInput : helper function of validateInput Validate pass datattypes untill data match to $dataTypes
      *
@@ -362,14 +367,14 @@ class Validate extends ErrorHandler
             }
         } while (true);
         return $result;
-    }  
+    }
     /**
      * validateInput : validate input unless pass datatypes doest match on console application
      *
      * @param  mixed $input : passed data
      * @param  mixed $dataTypes : pass datatypes that  expected 
      * @return void
-     */    
+     */
     /**
      * validateInput 
      *
@@ -385,7 +390,7 @@ class Validate extends ErrorHandler
             return $result;
         }
     }
-    
+
     /**
      * echoit
      *
@@ -404,7 +409,7 @@ class Validate extends ErrorHandler
         for ($i = 1; $i <= $newLine; $i++)
             $temp .= "\n";
         echo $msg . $temp;
-    }    
+    }
     /**
      * stringLower
      *
@@ -414,7 +419,7 @@ class Validate extends ErrorHandler
     public function stringLower($string1): bool
     {
         return (strtolower($string1) == $string1);
-    }    
+    }
     /**
      * senitizeInput
      *
@@ -427,7 +432,7 @@ class Validate extends ErrorHandler
         $data = stripslashes($data);
         $data = htmlspecialchars($data);
         return $data;
-    }    
+    }
     /**
      * isEmpty
      *

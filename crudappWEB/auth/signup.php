@@ -15,24 +15,22 @@ include '../config/FormValidator.php';
 if (isset($_POST['submit'])) {
 
     $validations = [
-        "name" => "required",
-        'email' => 'required|email',
-        'password' => 'required'
+        'name' => 'decimal',
+        'phoneno' => 'required|numeric|max:10|min:10'
     ];
 
     $obj = new FormValidator();
     $obj->validate($_POST, $validations);
-    print_r($_POST);
-    $errors = $obj->all();
+    // print_r($_POST);
 }
 ?>
 
 <body>
     <div class="container mt-3">
         <?php
-        if (!empty($errors)) {
+        if ($obj->isError()) {
             echo '<div class="alert alert-danger" role="alert">';
-            foreach ($errors as $error) {
+            foreach ($obj->all() as $error) {
                 echo "<li>$error</li>";
             }
             echo '</div>';
@@ -42,15 +40,15 @@ if (isset($_POST['submit'])) {
 
             <div class="mb-3">
                 <label for="exampleInputEmail0" class="form-label">Name</label>
-                <input type="text" name="name" class="form-control" id="exampleInputEmail0" aria-describedby="emailHelp" value="">
+                <input type="text" name="name" value="ads" class="form-control" id="exampleInputEmail0" aria-describedby="emailHelp" value="">
             </div>
             <div class="mb-3">
                 <label for="exampleInputEmail1" class="form-label">Email address</label>
-                <input type="email" name="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" value="abc@gmail.com">
+                <input type="text" name="password" value="12345678asdASD@" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" value="abc@gmail.com">
             </div>
             <div class="mb-3">
                 <label for="exampleInputPassword1" class="form-label">Password</label>
-                <input type="password" name="password" class="form-control" id="exampleInputPassword1" value="12345678">
+                <input type="text" name="cpassword" value="12345678asdASD@" class="form-control" id="exampleInputPassword1" value="12345678">
             </div>
 
             <button type="submit" name="submit" class="btn btn-primary">Submit</button>
