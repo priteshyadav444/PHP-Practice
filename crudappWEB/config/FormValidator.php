@@ -20,14 +20,18 @@ class FormValidator extends  Validate
     {
         $validations = explode("|", $validations);
         foreach ($validations as $validationType) {
-            $validationType = $this->getValidationType($validationType);
-
-            if ($validationType != false) {
-                $this->handleValidation($key, $value, $validationType);
+            $validationCode = $this->getValidationType($validationType);
+            if ($validationCode != false) {
+                if ($validationCode == 'CHECK_MINIMUM' || $validationCode == 'CHECK_MINIMUM') {
+                    $meta = substr($validationType, 3);
+                    $this->handleValidation($key, $value, $validationCode, $meta);
+                } else {
+                    $this->handleValidation($key, $value, $validationCode);
+                }
             }
         }
     }
-    private function handleValidation($key, $value, $validationType)
+    private function handleValidation($key, $value, $validationType, $meta = null)
     {
 
         if ($validationType == "FIELD_REQUIRED") {
@@ -42,18 +46,34 @@ class FormValidator extends  Validate
         }
         if ($validationType == "CHECK_DATA_STRING") {
             if (Validate::isString($value) == false) {
-                Validate::setError(Validate::getErrorMessage($validationType, $key, 'String'), $key);
+                Validate::setError(Validate::getErrorMessage($validationType, $key, 'string'), $key);
+            }
+        }
+        if ($validationType == "CHECK_DATA_EMAIL") {
+            if (Validate::isEmail($value) == false) {
+                Validate::setError(Validate::getErrorMessage($validationType, $key, 'email'), $key);
+            }
+        }
+        if ($validationType == "CHECK_MINIMUM") {
+            if (Validate::checkMinimum($value, $meta) == false) {
+                Validate::setError(Validate::getErrorMessage($validationType, $key, 'email'), $key);
             }
         }
     }
     // get Mapped Error Type forValidation
     private function getValidationType($input)
     {
+        $minmax = substr($input, 0, 3);
+        if ($minmax == 'max' || $minmax = 'min') {
+            $input = $minmax;
+        }
         $validationType = match ($input) {
             'required' => "FIELD_REQUIRED",
             'numeric' => "CHECK_DATA_INT",
             'string' => "CHECK_DATA_STRING",
-            'email' => "CHECK_DATA_EMIAL",
+            'email' => "CHECK_DATA_EMAIL",
+            'min' => "CHECK_MINIMUM",
+            'max' => "CHECK_MAXIMUM",
             default => false
         };
         return $validationType;

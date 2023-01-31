@@ -4,7 +4,6 @@ namespace ValidateClass;
 
 class ObjectFormatter
 {
-
     public function format(array $data = [], int $code = 200, string $statuscode = "SUCCESS")
     {
         $keys = array('statuscode', 'code', 'data');
@@ -60,12 +59,13 @@ class ErrorHandler extends ObjectFormatter
             'INVALID_DATATYPE' => "Enter Valid Data Expected $dataTypes",
             'INVALID_DATATYPE_INT' => "$keys must be $dataTypes",
             'INVALID_DATATYPE_STRING' => "$keys must be $dataTypes",
+            'INVALID_DATATYPE_EMAIL' => "$keys must be  Valid format",
             'INVALID_OPTION' => 'Enter option is In Valid',
             'NO_DATA_FOUND' => 'No Record Found!!',
             'DATABASE_EMPTY' => 'Dataset is Empty!!!!',
             'FIELD_REQUIRED' => "$keys field required",
 
-            default => "Unexpected Error",
+            default => "Unexpected Validation Error",
         };
         if ($return == true) {
             return $errorMessage;
@@ -82,6 +82,7 @@ class ErrorHandler extends ObjectFormatter
         $errorCode = match ($validationType) {
             'CHECK_DATA_INT' => 'INVALID_DATATYPE_INT',
             'CHECK_DATA_STRING' => 'INVALID_DATATYPE_STRING',
+            'CHECK_DATA_EMAIL' => 'INVALID_DATATYPE_EMAIL',
             'FIELD_REQUIRED' => 'FIELD_REQUIRED',
             default => "UNEXPECTED_VALIDATION_CODE"
         };
@@ -138,6 +139,11 @@ class Validate extends ErrorHandler
         if (Validate::isInt($input)) return false;
         return (preg_match("/^[a-zA-Z]{3,}( {1,2}[a-zA-Z]{3,}){0,}$/", $input) == 1);
     }
+    public static function isEmail($input): bool
+    {
+        if (!filter_var($input, FILTER_VALIDATE_EMAIL)) return false;
+        return true;
+    }
     // Return integer, float or bool when invalid data 
     // @params: mixed
     // @return type : int | float | bool
@@ -161,6 +167,11 @@ class Validate extends ErrorHandler
             return $stringValue;
         }
         return false;
+    }
+    public static function getLength($input)
+    {
+        if(empty($input)) return 0;
+        return strlen($input);
     }
 
     // Extract only int from the the input
