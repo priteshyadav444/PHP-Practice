@@ -5,8 +5,9 @@ use ValidateClass\Validate;
 
 class FormValidator extends  Validate
 {
-    // iterate through all passed validation keys 
-    function validate(&$data, $validations)
+    private $password = null;
+    // iterate through all passed validation keys afte senitizing data
+    public function validate(&$data, $validations)
     {
         foreach ($validations as $key => $validation) {
             if (array_key_exists($key, $data)); {
@@ -16,10 +17,9 @@ class FormValidator extends  Validate
         }
     }
     # iterrate though all the validation like by exploding | pipe assign
-    public function validateKey($key, $value, $validations = "")
+    private function validateKey($key, $value, $validations = "")
     {
-        $validations = explode("|", $validations);
-
+        $validations = array_unique(explode("|", $validations)); // remove dublicate validation. 
         foreach ($validations as $validationType) {
             $validationCode = $this->getValidationType($validationType);
             if ($validationCode != false) {
@@ -59,8 +59,21 @@ class FormValidator extends  Validate
             if (Validate::checkMinimum($value, $meta) == false) {
                 Validate::setError(Validate::getErrorMessage($validationType, $key, '', $meta), $key);
             }
-        }if ($validationType == "CHECK_MAXIMUM") {
+        }
+        if ($validationType == "CHECK_MAXIMUM") {
             if (Validate::checkMaximum($value, $meta) == false) {
+                Validate::setError(Validate::getErrorMessage($validationType, $key, '', $meta), $key);
+            }
+        }
+        if ($validationType == "CHECK_PASSWORD") {
+            if ((Validate::checkPassword($value)) == false) {
+                Validate::setError(Validate::getErrorMessage($validationType, $key, '', $meta), $key);
+            } else {
+                $this->password = $value;
+            }
+        }
+        if ($validationType == "CHECK_CONFORM_PASSWORD") {
+            if ($this->password != ($value)) {
                 Validate::setError(Validate::getErrorMessage($validationType, $key, '', $meta), $key);
             }
         }
@@ -72,6 +85,12 @@ class FormValidator extends  Validate
         if ($minmax == "max" || $minmax == "min") {
             $input = $minmax;
         }
+        if ($input == 'cpassword' and $this->password == null) {
+            $input = 'password';
+        }
+        if ($input == 'password' and $this->password != null) {
+            $input = 'cpassword';
+        }
         $validationType = match ($input) {
             'required' => "FIELD_REQUIRED",
             'numeric' => "CHECK_DATA_INT",
@@ -79,6 +98,8 @@ class FormValidator extends  Validate
             'email' => "CHECK_DATA_EMAIL",
             'min' => "CHECK_MINIMUM",
             'max' => "CHECK_MAXIMUM",
+            'password' => 'CHECK_PASSWORD',
+            'cpassword' => 'CHECK_CONFORM_PASSWORD',
             default => false
         };
         return $validationType;
