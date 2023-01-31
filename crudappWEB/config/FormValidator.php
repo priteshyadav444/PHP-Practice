@@ -3,20 +3,42 @@ include "../../ValidateProgram/Validate.php";
 
 use ValidateClass\Validate;
 
+/**
+ * FormValidator
+ */
 class FormValidator extends  Validate
 {
+    /**
+     * password
+     *
+     * @var undefined
+     */
     private $password = null;
-    // iterate through all passed validation keys afte senitizing data
+
+    /**
+     * validate : iterate through all passed validation keys afte senitizing data   
+     *
+     * @param  mixed $data
+     * @param  mixed $validations
+     * @return void
+     */
     public function validate(&$data, $validations)
     {
         foreach ($validations as $key => $validation) {
-            if (array_key_exists($key, $data)); {
+            if (array_key_exists($key, $data)) {
                 $data[$key] = Validate::senitizeInput($data[$key]);
                 $this->validateKey($key, $data[$key], $validation);
             }
         }
     }
-    # iterrate though all the validation like by exploding | pipe assign
+    /**
+     * validateKey : iterrate though all the validation like by exploding | pipe assign
+     *
+     * @param  mixed $key
+     * @param  mixed $value
+     * @param  mixed $validations
+     * @return void
+     */
     private function validateKey($key, $value, $validations = "")
     {
         $validations = array_unique(explode("|", $validations)); // remove dublicate validation. 
@@ -32,6 +54,15 @@ class FormValidator extends  Validate
             }
         }
     }
+    /**
+     * performValidation
+     *
+     * @param  mixed $key
+     * @param  mixed $value
+     * @param  mixed $validationType
+     * @param  mixed $meta
+     * @return void
+     */
     private function performValidation($key, $value, $validationType, $meta = null)
     {
 
@@ -78,19 +109,22 @@ class FormValidator extends  Validate
             }
         }
     }
-    // get Mapped Error Type forValidation
+    /**
+     * getValidationType : get Mapped Error Type forValidation    
+     *
+     * @param  mixed $input
+     * @return void
+     */
     private function getValidationType($input)
     {
         $minmax = substr($input, 0, 3);
-        if ($minmax == "max" || $minmax == "min") {
+        if ($minmax == "max" || $minmax == "min")
             $input = $minmax;
-        }
-        if ($input == 'cpassword' and $this->password == null) {
+        if ($input == 'cpassword' and empty($this->password))
             $input = 'password';
-        }
-        if ($input == 'password' and $this->password != null) {
+        if ($input == 'password' and isset($this->password))
             $input = 'cpassword';
-        }
+
         $validationType = match ($input) {
             'required' => "FIELD_REQUIRED",
             'numeric' => "CHECK_DATA_INT",

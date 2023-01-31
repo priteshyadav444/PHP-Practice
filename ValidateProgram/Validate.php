@@ -2,6 +2,9 @@
 
 namespace ValidateClass;
 
+/**
+ * ObjectFormatter
+ */
 class ObjectFormatter
 {
     public function format(array $data = [], int $code = 200, string $statuscode = "SUCCESS")
@@ -13,9 +16,25 @@ class ObjectFormatter
     }
 }
 
+/**
+ * ErrorHandler
+ */
 class ErrorHandler extends ObjectFormatter
 {
+    /**
+     * errors
+     *
+     * @var array
+     */
     private $errors = array();
+
+    /**
+     * setError for particular key in
+     *
+     * @param  mixed $newError : Error Message 
+     * @param  mixed $key : p
+     * @return void
+     */
     public function setError($newError, $key)
     {
         if (!empty($key)) {
@@ -27,7 +46,12 @@ class ErrorHandler extends ObjectFormatter
         }
     }
 
-    public function all()
+    /**
+     * return array of all errors
+     *
+     * @return array
+     */
+    public function all(): array
     {
         $allErrors = array();
         foreach ($this->errors as $keyError) {
@@ -37,7 +61,12 @@ class ErrorHandler extends ObjectFormatter
         }
         return $allErrors;
     }
-    // return is errors present for all as well as particular key
+    /**
+     * return if errors present for all keys as well as particular key
+     *
+     * @param  mixed $key (to check for partucular key is errors present or not)
+     * @return bool
+     */
     public function isError($key = null): bool
     {
         if (empty($this->errors)) return false;
@@ -50,22 +79,37 @@ class ErrorHandler extends ObjectFormatter
         }
         return false;
     }
-    // display error message mapped Error code
-    // @params: $errorCode : error Code of Error Message
-    // @return type : void
-    public function errorHandler($errorCode, $dataTypes = null, $keys = "", $return = false, $meta = null)
+
+    /**
+     * errorHandler : display error message as per mapped Error code
+     *
+     * @param  mixed $errorCode : error Code of Error Message
+     * @param  mixed $dataTypes
+     * @param  mixed $key
+     * @param  mixed $return
+     * @param  mixed $meta
+     * @return string Error Message
+     */
+    public function errorHandler($errorCode, $dataTypes = null, $key = "", $return = false, $meta = null)
     {
         $errorMessage = match ($errorCode) {
             'INVALID_DATATYPE' => "Enter Valid Data Expected $dataTypes",
-            'INVALID_DATATYPE_INT' => "$keys must be $dataTypes",
-            'INVALID_DATATYPE_STRING' => "$keys must be $dataTypes",
-            'INVALID_DATATYPE_EMAIL' => "$keys must be valid $dataTypes format",
+            'INVALID_DATATYPE_INT' => "$key must be $dataTypes",
+            'INVALID_DATATYPE_STRING' => "$key must be $dataTypes",
+            'INVALID_DATATYPE_EMAIL' => "$key must be valid $dataTypes format",
             'INVALID_OPTION' => 'Enter option is In Valid',
             'NO_DATA_FOUND' => 'No Record Found!!',
             'DATABASE_EMPTY' => 'Dataset is Empty!!!!',
-            'FIELD_REQUIRED' => "$keys field required",
-            'MINIMUM_LENGTH_REQUIRED' => "$keys minimum length is $meta",
-            'MAXIMUM_LENGTH_REQUIRED' => "$keys maximum length is $meta",
+            'FIELD_REQUIRED' => "$key field required",
+            'MINIMUM_LENGTH_REQUIRED' => "$key minimum length is $meta",
+            'MAXIMUM_LENGTH_REQUIRED' => "$key maximum length is $meta",
+            'INVALID_PASSWORD_FORMAT' => "invalid password format </li>
+             <li> password required eight characters,</li>
+             <li> password Required at least one uppercase letter </li> 
+             <li> password Required one lowercase letter</li>
+             <li> password required one number </li>
+             <li> password required one special character",
+            'PASSWORD_MISMATCH' => "password mismatch",
             default => "Unexpected Validation Error",
         };
         if ($return == true) {
@@ -78,7 +122,16 @@ class ErrorHandler extends ObjectFormatter
             self::__displayError($errorMessage);
         }
     }
-    public function getErrorMessage($validationType, $keys, $dataTypes = null, $meta = null)
+    /**
+     * getErrorMessage : return Array Message 
+     *
+     * @param  mixed $validationType
+     * @param  mixed $key
+     * @param  mixed $dataTypes
+     * @param  mixed $meta : Extra information helper in error message
+     * @return void
+     */
+    public function getErrorMessage($validationType, $key, $dataTypes = null, $meta = null)
     {
         $errorCode = match ($validationType) {
             'CHECK_DATA_INT' => 'INVALID_DATATYPE_INT',
@@ -87,9 +140,11 @@ class ErrorHandler extends ObjectFormatter
             'FIELD_REQUIRED' => 'FIELD_REQUIRED',
             'CHECK_MINIMUM' => 'MINIMUM_LENGTH_REQUIRED',
             'CHECK_MAXIMUM' => 'MAXIMUM_LENGTH_REQUIRED',
+            'CHECK_PASSWORD' => 'INVALID_PASSWORD_FORMAT',
+            'CHECK_CONFORM_PASSWORD' => 'PASSWORD_MISMATCH',
             default => "UNEXPECTED_VALIDATION_CODE"
         };
-        return $this->errorHandler($errorCode, $dataTypes, $keys, true, $meta);
+        return $this->errorHandler($errorCode, $dataTypes, $key, true, $meta);
     }
     // display error message with expected Data Types 
     // @params: $dataTypes : pass datatypes that  expected 
@@ -99,6 +154,13 @@ class ErrorHandler extends ObjectFormatter
         $message = $dataTypes == null ? $message : $message . " Expectded ($dataTypes)";
         self::echoit($message);
     }
+    /**
+     * echoit : Custom echo 
+     *
+     * @param  mixed $msg
+     * @param  mixed $newLine
+     * @return void
+     */
     public function echoit($msg, $newLine = 2)
     {
         if ($newLine < 1) {
@@ -113,43 +175,62 @@ class ErrorHandler extends ObjectFormatter
     }
 }
 
+/**
+ * Validate
+ */
 class Validate extends ErrorHandler
 {
-    // Validate input is int or not 
-    // @params: mixed
-    // @return type : boolean
+    /**
+     * isInt : Validate input is int or not 
+     *
+     * @param  mixed $input
+     * @return bool
+     */
     public static function isInt($input): bool
     {
         $intValue = intval($input);
         return ($input == $intValue);
     }
-
-    // Validate input is flaot or not 
-    // @params: mixed
-    // @return type : boolean
+    /**
+     * isfloat : Validate input is flaot or not 
+     *
+     * @param  mixed $input
+     * @return bool
+     */
     public static function isfloat($input): bool
     {
         $intValue = floatval($input);
         return ($input == $intValue);
     }
-
-    // Validate input is string or not 
-    // @params: mixed
-    // @return type : boolean
+    /**
+     * isString : Validate input is string or not 
+     *
+     * @param  mixed $input
+     * @return bool
+     */
     public static function isString($input): bool
     {
         if (strlen($input) == 0) return false;
         if (Validate::isInt($input)) return false;
         return (preg_match("/^[a-zA-Z]{3,}( {1,2}[a-zA-Z]{3,}){0,}$/", $input) == 1);
     }
+    /**
+     * isEmail : Validate wetaher $input is email or not
+     *
+     * @param  mixed $input
+     * @return bool
+     */
     public static function isEmail($input): bool
     {
         if (!filter_var($input, FILTER_VALIDATE_EMAIL)) return false;
         return true;
     }
-    // Return integer, float or bool when invalid data 
-    // @params: mixed
-    // @return type : int | float | bool
+    /**
+     * getInt :  Return integer, float or bool when invalid data 
+     *
+     * @param  mixed $input
+     * @return int | float | bool
+     */
     public static function getInt($input): int | float | bool
     {
         if (self::isInt($input)) {
@@ -159,10 +240,12 @@ class Validate extends ErrorHandler
         }
         return false;
     }
-
-    // Return string value or boolen (false) when invalid data
-    // @params: mixed
-    // @return type : string | bool
+    /**
+     * getString : Return string value or boolen (false) when invalid data
+     *
+     * @param  mixed $input
+     * @return string | bool
+     */
     public static function getString($input): string | bool
     {
         if (self::isString($input) && !empty($input) && !self::isInt($input)) {
@@ -171,23 +254,57 @@ class Validate extends ErrorHandler
         }
         return false;
     }
+    /**
+     * getLength : get length of length
+     *
+     * @param  mixed $input
+     * @return void
+     */
     public static function getLength($input)
     {
         if (empty($input)) return 0;
         return strlen($input);
     }
+    /**
+     * checkMinimum : Check minimum length of $input 
+     *
+     * @param  mixed $input
+     * @param  mixed $length
+     * @return bool
+     */
     public static function checkMinimum($input, $length): bool
     {
         return (self::getLength($input) >= $length);
     }
+    /**
+     * checkMaximum : check maximum length
+     *
+     * @param  mixed $input
+     * @param  mixed $length
+     * @return bool
+     */
     public static function checkMaximum($input, $length): bool
     {
         return (self::getLength($input) <= $length);
     }
-    // Extract only int from the the input
-    // @params: mixed
-    // @return type : int | float
-    public function extractInteger($input): int | float
+    /**
+     * checkPassword : validate $input as per passed regex
+     *
+     * @param  mixed $input
+     * @return bool
+     */
+    public static function checkPassword($input): bool
+    {
+        if (strlen($input) == 0) return false;
+        return (preg_match("/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/", $input) == 1);
+    }
+    /**
+     * extractInteger: Extract only int from the the input
+     *
+     * @param  mixed $input
+     * @return int | float
+     */
+    public static function extractInteger($input): int | float
     {
         // if input is is already integer
         if ($input == null) return false;
@@ -204,10 +321,12 @@ class Validate extends ErrorHandler
         }
         return $result;
     }
-
-    // extract only string charecter from the the input
-    // @params: mixed
-    // @return type : string
+    /**
+     * extractString : extract only string charecter from the the input
+     *
+     * @param  mixed $input
+     * @return void
+     */
     public function extractString($input)
     {
         if ($input == null) return false;
@@ -221,11 +340,15 @@ class Validate extends ErrorHandler
             }
         }
         return $result;
-    }
-
-    // helper function of validateInput Validate pass datattypes untill data match to $dataTypes
-    // @params: $functionname : particular function for Validateing datatypes , $input : input data , $dataTypes : expected
-    // @return type : @params : $dataTypes 
+    }  
+    /**
+     * handleInput : helper function of validateInput Validate pass datattypes untill data match to $dataTypes
+     *
+     * @param  mixed $functionName : particular function for Validateing datatypes
+     * @param  mixed $input : nput data 
+     * @param  mixed $dataTypes : Expected datatypes
+     * @return void
+     */
     private function handleInput($functionName, $input, $dataTypes)
     {
         $result = Validate::$functionName($input);
@@ -239,11 +362,21 @@ class Validate extends ErrorHandler
             }
         } while (true);
         return $result;
-    }
-
-    // validate input unless pass datatypes doest match on console application
-    // @params: $input : passed data, $dataTypes : pass datatypes that  expected 
-    // @return type : @params : $dataTypes
+    }  
+    /**
+     * validateInput : validate input unless pass datatypes doest match on console application
+     *
+     * @param  mixed $input : passed data
+     * @param  mixed $dataTypes : pass datatypes that  expected 
+     * @return void
+     */    
+    /**
+     * validateInput 
+     *
+     * @param  mixed $input
+     * @param  mixed $dataTypes
+     * @return void
+     */
     public function validateInput($input, $dataTypes)
     {
         if (isset($input) && $dataTypes == 'int' || $dataTypes == 'string') {
@@ -252,7 +385,14 @@ class Validate extends ErrorHandler
             return $result;
         }
     }
-
+    
+    /**
+     * echoit
+     *
+     * @param  mixed $msg
+     * @param  mixed $newLine
+     * @return void
+     */
     public function echoit($msg, $newLine = 2)
     {
         if ($newLine < 1) {
@@ -264,18 +404,36 @@ class Validate extends ErrorHandler
         for ($i = 1; $i <= $newLine; $i++)
             $temp .= "\n";
         echo $msg . $temp;
-    }
+    }    
+    /**
+     * stringLower
+     *
+     * @param  mixed $string1
+     * @return bool
+     */
     public function stringLower($string1): bool
     {
         return (strtolower($string1) == $string1);
-    }
+    }    
+    /**
+     * senitizeInput
+     *
+     * @param  mixed $data
+     * @return void
+     */
     public function senitizeInput($data)
     {
         $data = trim($data);
         $data = stripslashes($data);
         $data = htmlspecialchars($data);
         return $data;
-    }
+    }    
+    /**
+     * isEmpty
+     *
+     * @param  mixed $input
+     * @return bool
+     */
     public static function isEmpty($input): bool
     {
         return (strlen($input) == 0);
