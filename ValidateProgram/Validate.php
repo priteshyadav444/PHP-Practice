@@ -59,13 +59,13 @@ class ErrorHandler extends ObjectFormatter
             'INVALID_DATATYPE' => "Enter Valid Data Expected $dataTypes",
             'INVALID_DATATYPE_INT' => "$keys must be $dataTypes",
             'INVALID_DATATYPE_STRING' => "$keys must be $dataTypes",
-            'INVALID_DATATYPE_EMAIL' => "$keys must be  Valid format",
+            'INVALID_DATATYPE_EMAIL' => "$keys must be valid $dataTypes format",
             'INVALID_OPTION' => 'Enter option is In Valid',
             'NO_DATA_FOUND' => 'No Record Found!!',
             'DATABASE_EMPTY' => 'Dataset is Empty!!!!',
             'FIELD_REQUIRED' => "$keys field required",
-            'MINIMUM_LENGTH_REQUIRED' => "$keys minimum length $meta required",
-            'MAXIMUM_LENGTH_REQUIRED' => "$keys maximum length $meta required",
+            'MINIMUM_LENGTH_REQUIRED' => "$keys minimum length is $meta",
+            'MAXIMUM_LENGTH_REQUIRED' => "$keys maximum length is $meta",
             default => "Unexpected Validation Error",
         };
         if ($return == true) {
