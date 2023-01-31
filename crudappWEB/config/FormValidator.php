@@ -23,7 +23,7 @@ class FormValidator extends  Validate
         foreach ($validations as $validationType) {
             $validationCode = $this->getValidationType($validationType);
             if ($validationCode != false) {
-                if ($validationCode == 'CHECK_MINIMUM' || $validationCode == 'CHECK_MINIMUM') {
+                if ($validationCode == 'CHECK_MINIMUM' || $validationCode == 'CHECK_MAXIMUM') {
                     $meta = substr($validationType, 4,);
                     $this->performValidation($key, $value, $validationCode, $meta);
                 } else {
