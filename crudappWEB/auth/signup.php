@@ -15,14 +15,14 @@ include '../config/FormValidator.php';
 if (isset($_POST['submit'])) {
 
     $validations = [
-        "name" => "required|string",
-        'email' => 'required|numeric',
+        "name" => "required",
+        'email' => 'required|email',
         'password' => 'required'
     ];
 
     $obj = new FormValidator();
     $obj->validate($_POST, $validations);
-
+    print_r($_POST);
     $errors = $obj->all();
 }
 ?>

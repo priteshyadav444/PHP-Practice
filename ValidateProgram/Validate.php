@@ -57,13 +57,14 @@ class ErrorHandler extends ObjectFormatter
     public function errorHandler($errorCode, $dataTypes = null, $keys = "", $return = false)
     {
         $errorMessage = match ($errorCode) {
-            'INVALID_DATATYPE' => 'Enter Valid Data Expected',
-            'INVALID_DATATYPE_INT' => "$keys Must be $dataTypes",
-            'INVALID_DATATYPE_STRING' => "$keys Must be $dataTypes",
+            'INVALID_DATATYPE' => "Enter Valid Data Expected $dataTypes",
+            'INVALID_DATATYPE_INT' => "$keys must be $dataTypes",
+            'INVALID_DATATYPE_STRING' => "$keys must be $dataTypes",
             'INVALID_OPTION' => 'Enter option is In Valid',
             'NO_DATA_FOUND' => 'No Record Found!!',
             'DATABASE_EMPTY' => 'Dataset is Empty!!!!',
             'FIELD_REQUIRED' => "$keys field required",
+
             default => "Unexpected Error",
         };
         if ($return == true) {
@@ -75,6 +76,16 @@ class ErrorHandler extends ObjectFormatter
             }
             self::__displayError($errorMessage);
         }
+    }
+    public function getErrorMessage($validationType, $keys, $dataTypes = null)
+    {
+        $errorCode = match ($validationType) {
+            'CHECK_DATA_INT' => 'INVALID_DATATYPE_INT',
+            'CHECK_DATA_STRING' => 'INVALID_DATATYPE_STRING',
+            'FIELD_REQUIRED' => 'FIELD_REQUIRED',
+            default => "UNEXPECTED_VALIDATION_CODE"
+        };
+        return $this->errorHandler($errorCode, $dataTypes, $keys, true);
     }
     // display error message with expected Data Types 
     // @params: $dataTypes : pass datatypes that  expected 
@@ -123,8 +134,9 @@ class Validate extends ErrorHandler
     // @return type : boolean
     public static function isString($input): bool
     {
-        self::isEmpty($input);
-        return is_string($input);
+        if (strlen($input) == 0) return false;
+        if (Validate::isInt($input)) return false;
+        return (preg_match("/^[a-zA-Z]{3,}( {1,2}[a-zA-Z]{3,}){0,}$/", $input) == 1);
     }
     // Return integer, float or bool when invalid data 
     // @params: mixed
