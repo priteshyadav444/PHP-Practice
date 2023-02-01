@@ -147,7 +147,7 @@ class ErrorHandler
      * @param  mixed $newLine
      * @return void
      */
-    public function echoit($msg, $newLine = 2)
+    public static function echoit($msg, $newLine = 2)
     {
         if ($newLine < 1) {
             echo "$msg \n";

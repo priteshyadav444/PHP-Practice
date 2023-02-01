@@ -166,7 +166,7 @@ class Validate extends \ErrorHandler
         $result = "";
         for ($i = 0; $i < strlen($input); $i++) {
             $char = $input[$i];
-            if (!self::isInt($char) && self::isString($char) && $char != '.') {
+            if (is_string($char) && $char != '.') {
                 $result .= $input[$i];
             }
         }
@@ -210,7 +210,7 @@ class Validate extends \ErrorHandler
      */
     public function validateInput($input, $dataTypes)
     {
-        if (isset($input) && $dataTypes == 'int' || $dataTypes == 'string') {
+        if (isset($input) && ($dataTypes == 'int' || $dataTypes == 'string')) {
             $functionName = "get" . ucfirst($dataTypes);
             $result = self::handleInput($functionName, $input, $dataTypes);
             return $result;
@@ -224,7 +224,7 @@ class Validate extends \ErrorHandler
      * @param  mixed $newLine
      * @return void
      */
-    public function echoit($msg, $newLine = 2)
+    public static function echoit($msg, $newLine = 2)
     {
         if ($newLine < 1) {
             echo "$msg \n";
