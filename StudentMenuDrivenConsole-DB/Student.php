@@ -1,6 +1,6 @@
 <?php
 include_once '../ValidateProgram/Validate.php';
-
+use ValidateClass\Validate;
 class Student extends Validate
 {
     private $studentId;
@@ -29,8 +29,8 @@ class Student extends Validate
     }
     public  function readData()
     {
-        $name = parent::validateInput(parent::extractString(readLine("Enter Name : ")), 'string');
-        $address =  parent::validateInput(readLine("Enter Address : "), 'string');
+        $name = Validate::validateInput(Validate::extractString(readLine("Enter Name : ")), 'string');
+        $address =  Validate::validateInput(readLine("Enter Address : "), 'string');
         $this->setCustomer($name, $address);
     }
     public function getId()

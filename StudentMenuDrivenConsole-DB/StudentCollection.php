@@ -1,6 +1,9 @@
 <?php
 include_once './Student.php';
 include_once '../ValidateProgram/Validate.php';
+
+use ValidateClass\Validate;
+
 include './StudentDB.php';
 
 class StudentCollection extends Validate
@@ -10,9 +13,9 @@ class StudentCollection extends Validate
     public function __construct()
     {
         $this->DB = new Connection();
-        self::popolateState();
+        self::populateData();
     }
-    public function popolateState()
+    public function populateData()
     {
         $result = $this->DB->getStudents();
         self::resetObjects();
@@ -37,7 +40,7 @@ class StudentCollection extends Validate
         $student->readData();
         if ($this->DB->insertStudent($student->getName(), $student->getAddress())) {
             parent::echoit("Record Inserted!!");
-            self::popolateState();
+            self::populateData();
         } else {
             Validate::echoit("Request Failed!!");
         }
@@ -61,7 +64,7 @@ class StudentCollection extends Validate
         $id = parent::extractInteger(readLine("Enter Id : "));
         $flag = false;
         if ($this->DB->deleteStudent($id)) {
-            self::popolateState();
+            self::populateData();
             $flag = true;
         }
 
@@ -106,7 +109,7 @@ class StudentCollection extends Validate
                 $student->readData();
                 if ($this->DB->updateStudent($id, $student->getName(), $student->getAddress())) {
                     Validate::echoit("Records Updated");
-                    self::popolateState();
+                    self::populateData();
                     $flag = true;
                 }
             }
