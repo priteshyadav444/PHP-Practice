@@ -2,11 +2,9 @@
 
 namespace ValidateClass;
 
-include 'Helper/pincode/pincode.php';
-include 'Helper/Error/Error.php';
-
+include 'Helper/Helper.php';
 /**
- * Validate
+ * Validate Class 
  */
 class Validate extends \ErrorHandler
 {
