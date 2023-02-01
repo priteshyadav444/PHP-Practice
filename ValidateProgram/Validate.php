@@ -2,6 +2,7 @@
 
 namespace ValidateClass;
 
+include 'Helper/pincode/pincode.php';
 /**
  * ObjectFormatter
  */
@@ -442,5 +443,10 @@ class Validate extends ErrorHandler
     public static function isEmpty($input): bool
     {
         return (strlen($input) == 0);
+    }
+    public static function checkPinCode($input)
+    {
+        $obj = new \IndianPincode();
+        return $obj->validate($input);
     }
 }
