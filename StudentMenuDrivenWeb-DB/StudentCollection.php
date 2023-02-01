@@ -24,9 +24,11 @@ class StudentCollection extends Validate
                 array_push($this->objects, $student);
             }
         }
+        $statuscode = 201;
         header('Access-Control-Allow-Origin: *');
         header('Access-Control-Allow-Methods: POST, GET, OPTIONS');
-        print_r(ObjectFormatter::format($this->objects, 200, "DATA_FOUND"));
+        header('Status Code', $statuscode);
+        print_r(ObjectFormatter::format($this->objects,  $statuscode, "DATA_FOUND"));
     }
     // public function resetObjects()
     // {
