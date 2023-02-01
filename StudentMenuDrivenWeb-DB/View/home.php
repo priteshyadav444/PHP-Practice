@@ -12,7 +12,7 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
     <script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
-    <script type="text/javascript" src="../js/data.js"></script>
+    <script type="text/javascript" src="../js/data.js?v=42" type="text/javascript"></script>
 
 
 </head>
@@ -56,7 +56,7 @@
                     <th scope="col">Delete</th>
                 </tr>
             </thead>
-            <tbody >
+            <tbody>
 
             </tbody>
         </table>
