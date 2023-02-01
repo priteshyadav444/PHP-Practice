@@ -1,7 +1,11 @@
 <?php
 include_once './Student.php';
 include_once '../ValidateProgram/Validate.php';
+include_once '../ValidateProgram/Helper/Object/Object.php';
+
 include './StudentDB.php';
+
+use ValidateClass\Validate;
 
 class StudentCollection extends Validate
 {
@@ -20,7 +24,9 @@ class StudentCollection extends Validate
                 array_push($this->objects, $student);
             }
         }
-        print_r(Validate::format($this->objects, 200, "DATA_FOUND"));
+        header('Access-Control-Allow-Origin: *');
+        header('Access-Control-Allow-Methods: POST, GET, OPTIONS');
+        print_r(ObjectFormatter::format($this->objects, 200, "DATA_FOUND"));
     }
     // public function resetObjects()
     // {
@@ -117,4 +123,3 @@ if (isset($_SERVER['REQUEST_METHOD']) == 'GET') {
     $student = new StudentCollection();
     print_r($student->getAll());
 }
-
