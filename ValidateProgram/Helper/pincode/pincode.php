@@ -217,15 +217,3 @@ class IndianPincode extends Errors
         }
     }
 }
-
-
-
-// if ($obj->enterPincode($user_pincode)) {
-//     $data = $obj->enterPincode($user_pincode);
-
-//     $info = ['Region' => $data[0], 'State/UT' =>  $data[1], 'GPO' => $data[2]];
-
-//     $response = $info;
-// } else {
-//     $response =  $obj->error;
-// }

@@ -1,5 +1,8 @@
 <?php
-include "../../ValidateProgram/Validate.php";
+
+namespace Form;
+
+include "Validate.php";
 
 use ValidateClass\Validate;
 
@@ -18,7 +21,7 @@ class FormValidator extends  Validate
     /**
      * validate : iterate through all passed validation keys afte senitizing data   
      *
-     * @param  mixed $data : take refrences of fata to sentize data
+     * @param  mixed $data : take refrences of data to sentize form data
      * @param  mixed $validations
      * @return void
      */
