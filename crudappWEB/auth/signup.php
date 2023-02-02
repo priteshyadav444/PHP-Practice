@@ -11,28 +11,29 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 </head>
 <?php
-include '../config/FormValidator.php';
+include '../../ValidateProgram/FormValidator.php';
+
+use Form\FormValidator;
+
+$obj = new FormValidator();
+
 if (isset($_POST['submit'])) {
-
     $validations = [
-        'name' => 'decimal',
-        'phoneno' => 'required|numeric|max:10|min:10'
+        'name' => 'string',
+        'phone' => 'numeric',
+        'email' => 'email',
     ];
-
-    $obj = new FormValidator();
     $obj->validate($_POST, $validations);
-    // print_r($_POST);
 }
 ?>
 
 <body>
     <div class="container mt-3">
         <?php
-        if ($obj->isError()) {
+        if ($obj->isError() != false) {
             echo '<div class="alert alert-danger" role="alert">';
-            foreach ($obj->all() as $error) {
+            foreach ($obj->all() as $error)
                 echo "<li>$error</li>";
-            }
             echo '</div>';
         }
         ?>
@@ -40,15 +41,15 @@ if (isset($_POST['submit'])) {
 
             <div class="mb-3">
                 <label for="exampleInputEmail0" class="form-label">Name</label>
-                <input type="text" name="name" value="ads" class="form-control" id="exampleInputEmail0" aria-describedby="emailHelp" value="">
+                <input type="text" name="name" value='<?php echo "{$obj->old('name')}"; ?>' class="form-control" id="exampleInputEmail0" aria-describedby="emailHelp">
             </div>
             <div class="mb-3">
                 <label for="exampleInputEmail1" class="form-label">Email address</label>
-                <input type="text" name="password" value="12345678asdASD@" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" value="abc@gmail.com">
+                <input type="text" name="email" value='<?php echo "{$obj->old('email')}"; ?>' class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
             </div>
             <div class="mb-3">
-                <label for="exampleInputPassword1" class="form-label">Password</label>
-                <input type="text" name="cpassword" value="12345678asdASD@" class="form-control" id="exampleInputPassword1" value="12345678">
+                <label for="exampleInputPassword1" class="form-label">Phone</label>
+                <input type="text" name="phone" value='<?php echo "{$obj->old('phone')}"; ?>' class="form-control" id="exampleInputPassword1">
             </div>
 
             <button type="submit" name="submit" class="btn btn-primary">Submit</button>

@@ -165,7 +165,13 @@ class FormValidator extends  Validate
             if ($this->isError($key))
                 unset($this->oldValues[$key]);
         }
-    }
+    }    
+    /**
+     * old : return old vales if data was valid 
+     *
+     * @param  mixed $key : 
+     * @return string
+     */
     public function old($key): string|int
     {
         if (!empty($this->oldValues[$key]))

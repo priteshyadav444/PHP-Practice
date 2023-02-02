@@ -10,6 +10,12 @@ function cleanStr($string)
     return $string;
 }
 
+/**
+ * countWords
+ *
+ * @param  mixed $paragraph
+ * @return void
+ */
 function countWords($paragraph)
 {
     $paragraph = cleanStr($paragraph);

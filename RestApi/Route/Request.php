@@ -3,7 +3,7 @@ include_once 'IRequest.php';
 
 class Request implements IRequest
 {
-    
+
     function __construct()
     {
         $this->bootstrapSelf();
@@ -11,12 +11,12 @@ class Request implements IRequest
 
     private function bootstrapSelf()
     {
-        echo "<pre>";
         foreach ($_SERVER as $key => $value) {
-            // var_dump($key);
             $this->{$this->toCamelCase($key)} = $value;
         }
-        
+        echo "<pre>";
+        var_dump($this);
+
     }
 
     private function toCamelCase($string)
@@ -35,7 +35,6 @@ class Request implements IRequest
 
     public function getBody()
     {
-        var_dump(INPUT_GET);
         if ($this->requestMethod === "GET") {
             return;
         }
