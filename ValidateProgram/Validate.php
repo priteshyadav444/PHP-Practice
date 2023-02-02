@@ -5,6 +5,8 @@ namespace ValidateClass;
 include 'Helper/Helper.php';
 /**
  * Validate Class 
+ * @author Pritesh Yadav (priteshyadav2015@gmail.com)
+ * @link https://priteshyadav444.in
  */
 class Validate extends \ErrorHandler
 {
@@ -24,7 +26,6 @@ class Validate extends \ErrorHandler
      *
      * @param  mixed $input
      * @return bool {@see isInt()}
-     * @link https://taskeasy.in
      */
     public static function isfloat($input): bool
     {
@@ -269,7 +270,13 @@ class Validate extends \ErrorHandler
     {
         return (strlen($input) == 0);
     }
-    public static function checkPinCode($input)
+    /**
+     * checkPinCode : validaiton of indian pincode
+     *
+     * @param  mixed $input
+     * @return mixed
+     */
+    public static function checkPinCode($input): mixed
     {
         $obj = new \IndianPincode();
         return $obj->validate($input);
