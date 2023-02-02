@@ -1,4 +1,9 @@
 <?php
+
+/**
+ * PincodeData
+ * @author 
+ */
 class PincodeData
 {
     public $error;  // Variable to store the error
@@ -122,7 +127,7 @@ class IndianPincode extends Errors
         }
 
         // GPO detail
-        
+
         // if ($this->class_state_UT == 'Army Postal Service (APS)') {
         //     $this->class_gpo = self::$gpo_array[$this->class_state_UT];
         //     $this->flag = true;

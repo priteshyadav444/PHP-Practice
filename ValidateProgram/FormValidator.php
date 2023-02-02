@@ -17,13 +17,15 @@ class FormValidator extends  Validate
      * @var undefined
      */
     private $password = null;
+    private $oldValues = array();
 
     /**
      * validate : iterate through all passed validation keys afte senitizing data   
-     *
+     * @method updateOldValues : call this fethod to  Update values 
      * @param  mixed $data : take refrences of data to sentize form data
      * @param  mixed $validations
      * @return void
+     * 
      */
     public function validate(&$data, $validations)
     {
@@ -33,6 +35,7 @@ class FormValidator extends  Validate
                 $this->validateKey($key, $data[$key], $validation);
             }
         }
+        if ($this->isError()) $this->updateOldValues($data, $this->all());
     }
     /**
      * validateKey : iterrate though all the validation like by exploding | pipe assign
@@ -106,6 +109,7 @@ class FormValidator extends  Validate
         }
         if ($validationType == "CHECK_PASSWORD") {
             if ((Validate::checkPassword($value)) == false) {
+                $this->password = "";
                 Validate::setError(Validate::getErrorMessage($validationType, $key, '', $meta), $key);
             } else {
                 $this->password = $value;
@@ -138,7 +142,7 @@ class FormValidator extends  Validate
             $input = 'password';
         if ($input == 'password' and isset($this->password))
             $input = 'cpassword';
-
+            
         $validationType = match ($input) {
             'required' => "FIELD_REQUIRED",
             'numeric' => "CHECK_DATA_INT",
@@ -153,5 +157,19 @@ class FormValidator extends  Validate
             default => false
         };
         return $validationType;
+    }
+    private function updateOldValues($formData, $errors)
+    {
+        $this->oldValues = $formData;
+        foreach (array_keys($this->oldValues) as $key) {
+            if ($this->isError($key))
+                unset($this->oldValues[$key]);
+        }
+    }
+    public function old($key): string|int
+    {
+        if (!empty($this->oldValues[$key]))
+            return $this->oldValues[$key];
+        return "";
     }
 }
