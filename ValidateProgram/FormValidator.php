@@ -138,11 +138,11 @@ class FormValidator extends  Validate
         $minmax = substr($input, 0, 3);
         if ($minmax == "max" || $minmax == "min")
             $input = $minmax;
-        if ($input == 'cpassword' and empty($this->password))
+        if ($input == 'cpassword' and $this->password == null)
             $input = 'password';
         if ($input == 'password' and isset($this->password))
             $input = 'cpassword';
-            
+
         $validationType = match ($input) {
             'required' => "FIELD_REQUIRED",
             'numeric' => "CHECK_DATA_INT",
