@@ -56,10 +56,10 @@ class ErrorHandler
         if (empty($this->errors)) return false;
 
         if ($key == null) {
-            return count($this->errors);
+            return count($this->errors) > 0;
         } else {
             if (isset($this->errors[$key]))
-                return count($this->errors[$key]);
+                return count($this->errors[$key]) > 0;
         }
         return false;
     }
