@@ -1,23 +1,20 @@
 <?php
 include_once './Route/Request.php';
 include_once './Route/Router.php';
-$router = new Router(new Request);
+$route = new Router(new Request);
 
-$router->get('/', function () {
-  return <<<HTML
-  <h1>Hello world</h1>
-HTML;
-
+$route->get('/', function () {
+  return "<h1> hallo world </h1>";
 });
 
 
-$router->get('/profile', function ($request) {
-  return <<<HTML
-  <h1>Profile</h1>
-HTML;
+$route->get('/profile', function ($request) {
+  echo "<pre>";
+  print_r($request);
+  header('Content-Type: text/html');
+  return "<h1> hallo world </h1>";
 });
 
-$router->post('/data', function ($request) {
-
+$route->post('/data', function ($request) {
   return json_encode($request->getBody());
 });

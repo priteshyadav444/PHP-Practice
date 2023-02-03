@@ -9,6 +9,19 @@
 
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <script>
+        function InvalidMsg(textbox) {
+            console.log(textbox.value);
+            if (textbox.value === '') {
+                textbox.setCustomValidity('Required email address');
+            } else if (textbox.validity.typeMismatch) {
+                textbox.setCustomValidity('please enter a valid email address');
+            } else {
+                textbox.setCustomValidity('');
+            }
+            return true;
+        }
+    </script>
 </head>
 <?php
 include '../../ValidateProgram/FormValidator.php';
@@ -23,14 +36,14 @@ if (isset($_POST['submit'])) {
         'email' => 'email',
         'phone' => 'numeric|min:10|max:10',
     ];
-    // var_dump($obj->validate($_POST, $validations)->isError());
+    echo "isError()";var_dump($obj->validate($_POST, $validations)->isError());
 }
 ?>
 
 <body>
     <div class="container mt-3">
         <?php
-        if ($obj->validate($_POST, $validations)->isError() != false) {
+        if ($obj->isError() != false) {
             echo '<div class="alert alert-danger" role="alert">';
             foreach ($obj->all() as $error)
                 echo "<li>$error</li>";
@@ -49,7 +62,7 @@ if (isset($_POST['submit'])) {
             </div>
             <div class="mb-3">
                 <label for="exampleInputEmail1" class="form-label">Email</label>
-                <input type="text" name="email" value='<?php echo "{$obj->old('email')}"; ?>' class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
+                <input type="email" oninvalid="InvalidMsg(this);" oninput="InvalidMsg(this);" name="email" value='<?php echo "{$obj->old('email')}"; ?>' class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" required>
             </div>
             <div class="mb-3">
                 <label for="exampleInputPassword1" class="form-label">Phone</label>

@@ -47,7 +47,7 @@ class Validate extends \ErrorHandler
         return (preg_match("/^[a-zA-Z]{3,}( {1,2}[a-zA-Z]{3,}){0,}$/", $input) == 1);
     }
     /**
-     * isEmail : Validate wetaher $input is email or not
+     * isEmail : Validate wether $input is email or not
      *
      * @param  mixed $input
      * @return bool

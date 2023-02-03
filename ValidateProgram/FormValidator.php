@@ -9,7 +9,7 @@ use ValidateClass\Validate;
 /**
  * FormValidator
  */
-class FormValidator extends  Validate
+class FormValidator extends Validate
 {
     /**
      * password
@@ -27,7 +27,7 @@ class FormValidator extends  Validate
      * @return object current object
      * 
      */
-    public function validate(&$data, $validations):object
+    public function validate(&$data, $validations): object
     {
         foreach ($validations as $key => $validation) {
             if (array_key_exists($key, $data)) {

@@ -10,15 +10,22 @@ class Router
 
   function __construct(IRequest $request)
   {
-   $this->request = $request;
+    $this->request = $request;
   }
 
+  /**
+   * __call : dynamically create an associative array that map routes to callbacks. 
+   *
+   * @param  mixed $name : Method Name
+   * @param  mixed $args : Argument Data
+   * @return void
+   */
   function __call($name, $args)
   {
     list($route, $method) = $args;
 
-    if(!in_array(strtoupper($name), $this->supportedHttpMethods))
-    {
+    // check for supported methods
+    if (!in_array(strtoupper($name), $this->supportedHttpMethods)) {
       $this->invalidMethodHandler();
     }
 
@@ -32,16 +39,16 @@ class Router
   private function formatRoute($route)
   {
     $result = rtrim($route, '/');
-    if ($result === '')
-    {
+    if ($result === '') {
       return '/';
     }
+    // echo $result;
     return $result;
   }
 
   private function invalidMethodHandler()
   {
-    header("{$this->request->serverProtocol} 405 Method Not Allowed");
+    header("{$this->request->serverProtocol} 405 Method Not Allowed", true);
   }
 
   private function defaultRequestHandler()
@@ -54,17 +61,15 @@ class Router
    */
   function resolve()
   {
+
     $methodDictionary = $this->{strtolower($this->request->requestMethod)};
     $formatedRoute = $this->formatRoute($this->request->requestUri);
     $method = $methodDictionary[$formatedRoute];
-
-    if(is_null($method))
-    {
+    if (is_null($method)) {
       $this->defaultRequestHandler();
       return;
     }
-
-    echo call_user_func_array($method, array($this->request));
+    call_user_func_array($method, array($this->request));
   }
 
   function __destruct()
