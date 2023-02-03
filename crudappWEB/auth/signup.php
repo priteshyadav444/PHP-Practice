@@ -20,20 +20,24 @@ $obj = new FormValidator();
 if (isset($_POST['submit'])) {
     $validations = [
         'name' => 'string',
-        'phone' => 'numeric',
         'email' => 'email',
+        'phone' => 'numeric|min:10|max:10',
     ];
-    $obj->validate($_POST, $validations);
+    // var_dump($obj->validate($_POST, $validations)->isError());
 }
 ?>
 
 <body>
     <div class="container mt-3">
         <?php
-        if ($obj->isError() != false) {
+        if ($obj->validate($_POST, $validations)->isError() != false) {
             echo '<div class="alert alert-danger" role="alert">';
             foreach ($obj->all() as $error)
                 echo "<li>$error</li>";
+            echo '</div>';
+        } else {
+            echo '<div class="alert alert-success" role="alert">';
+            echo 'All Field are Valid';
             echo '</div>';
         }
         ?>
@@ -44,7 +48,7 @@ if (isset($_POST['submit'])) {
                 <input type="text" name="name" value='<?php echo "{$obj->old('name')}"; ?>' class="form-control" id="exampleInputEmail0" aria-describedby="emailHelp">
             </div>
             <div class="mb-3">
-                <label for="exampleInputEmail1" class="form-label">Email address</label>
+                <label for="exampleInputEmail1" class="form-label">Email</label>
                 <input type="text" name="email" value='<?php echo "{$obj->old('email')}"; ?>' class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
             </div>
             <div class="mb-3">
