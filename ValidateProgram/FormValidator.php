@@ -24,10 +24,10 @@ class FormValidator extends  Validate
      * @method updateOldValues : call this fethod to  Update values 
      * @param  mixed $data : take refrences of data to sentize form data
      * @param  mixed $validations
-     * @return void
+     * @return object current object
      * 
      */
-    public function validate(&$data, $validations)
+    public function validate(&$data, $validations):object
     {
         foreach ($validations as $key => $validation) {
             if (array_key_exists($key, $data)) {
@@ -36,6 +36,7 @@ class FormValidator extends  Validate
             }
         }
         if ($this->isError()) $this->updateOldValues($data, $this->all());
+        return $this;
     }
     /**
      * validateKey : iterrate though all the validation like by exploding | pipe assign
@@ -87,7 +88,6 @@ class FormValidator extends  Validate
             }
         }
         if ($validationType == "CHECK_DATA_DECIMAL") {
-            // print_r(Validate::isFloat($value));
             if (Validate::isFloat($value) == false) {
                 Validate::setError(Validate::getErrorMessage($validationType, $key, 'float'), $key);
             }
@@ -165,7 +165,7 @@ class FormValidator extends  Validate
             if ($this->isError($key))
                 unset($this->oldValues[$key]);
         }
-    }    
+    }
     /**
      * old : return old vales if data was valid 
      *
