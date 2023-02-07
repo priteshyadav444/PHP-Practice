@@ -1,4 +1,5 @@
 <?php
+
 class DateOperation
 {
     public function checkDate($dd, $mm, $yy)
@@ -29,5 +30,18 @@ $timestamp = $date->format('U');
 // echo $timestamp;
 // echo $dateOpeartion->getCurrentTimeStamp();
 
-echo date('D-m-Y',strtotime('today'));
+// echo date('D-m-Y', strtotime('today'));
+
+$ss = new DateTime();
+// $dateInteval = new DateInterval("");
+echo date('Y', strtotime('ss'));
+echo "\n";
+print_r(time());
+// $date = date_create("2013-03-15");
+// echo date_format($date, "Y/m/d");
+
+
+
+
+
 
