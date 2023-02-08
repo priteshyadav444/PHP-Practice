@@ -44,6 +44,7 @@ if (empty($_SESSION['first_name']) or empty($_SESSION['last_name']) or empty($_S
     echo "<h2> Headers Details: </h2>";
 
     echo "HTTP_HOST => " . $_SERVER['HTTP_HOST'];
+    echo "<br>REMOTE_ADDR => " . $_SERVER['REMOTE_ADDR'];
     echo "<br>HTTP_USER_AGENT => " . $_SERVER['HTTP_USER_AGENT'];
     echo "<br>SERVER_NAME => " . $_SERVER['SERVER_NAME'];
     echo "<br>SERVER_ADDR => " . $_SERVER['SERVER_ADDR'];
