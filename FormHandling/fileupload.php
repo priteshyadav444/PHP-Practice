@@ -65,7 +65,7 @@ if (isset($_POST['submit'])) {
 <body>
 
     <form action="<?php htmlspecialchars("fileupload.php") ?>" method="post" enctype="multipart/form-data">
-        <label>Select image to upload:</label><input type="file" multiple name="fileToUpload" id="fileToUpload" required> <br>
+        <label>Select image to upload:</label><input type="file" multiple name="filename[]" id="fileToUpload" required> <br>
         <input type="submit" value="Upload Image" name="submit">
     </form>
 

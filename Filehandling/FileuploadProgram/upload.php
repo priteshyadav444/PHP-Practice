@@ -32,20 +32,6 @@ if (isset($_POST['submit'])) {
     // echo mime_content_type($_FILES['fileToUpload']['tmp_name']);
 
     // print_r($_POST);
-
-    $obj = new FileUpload($_FILES, $key);
-
-    $validations = "required|filetype:zip";
-    $validations = array_unique(explode("|", $validations)); // remove dublicate validation. 
-
-    foreach ($validations as $type)
-        $obj->validate($type);
-
-    if (!$obj->isError()) {
-        $obj->upload();
-    }
-    echo "Error : ";
-    var_dump($obj->isError(true));
 }
 ?>
 

@@ -1,0 +1,49 @@
+1) The $this keyword refers to the current object, and is only available inside methods.
+2) You can use the instanceof keyword to check if an object belongs to a specific class:
+<?php
+$apple = new Fruit();
+var_dump($apple instanceof Fruit);
+?>
+
+3) If you create a __construct() function, PHP will automatically call this function when you create an object from a class.
+Notice that the construct function starts with two underscores (__)!
+
+4) The final keyword can be used to prevent class inheritance or to prevent method overriding.
+
+5) A class constant is declared inside a class with the const keyword.
+
+6) So, when a child class is inherited from an abstract class, we have the following rules:
+
+The child class method must be defined with the same name and it redeclares the parent abstract method
+The child class method must be defined with the same or a less restriInterface are similar to abstract classes. The difference between interfaces and abstract classes are:
+
+7) Interface vs Abstract Classes ? 
+Interfaces cannot have properties, while abstract classes can
+All interface methods must be public, while abstract class methods is public or protected
+All methods in an interface are abstract, so they cannot be implemented in code and the abstract keyword is not necessary
+Classes can implement an interface while inheriting from another class at the same timected access modifier
+The number of required arguments must be the same. However, the child class may have optional arguments in addition.
+
+To implement an interface, a class must use the implements keyword.
+
+A class that implements an interface must implement all of the interface's methods.
+
+8)
+<?php
+trait message1 {
+public function msg1() {
+    echo "OOP is fun! ";
+  }
+}
+
+class Welcome {
+  use message1;
+}
+
+$obj = new Welcome();
+$obj->msg1();
+?>
+
+
+
+

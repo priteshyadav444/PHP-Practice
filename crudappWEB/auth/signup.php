@@ -25,19 +25,27 @@
 </head>
 <?php
 
-include_once './../../validation/validators/FormValidator.php';
+// include_once '\validation\Validators\FormValidator';
+$path = "../../validation/Validators/FormValidator.php";
+// $path = "../../validation/Validators/FileValidator.php";
+// echo $path;
+include $path;
 
 use Form\FormValidator as FormValidator;
 
 $obj = new FormValidator();
-
+// var_dump($_POST);
 if (isset($_POST['submit'])) {
     $validations = [
         'name' => 'string',
         'email' => 'email',
         'phone' => 'numeric|min:10|max:10',
+        'docs' => 'required|filetype:txt'
     ];
-    var_dump($obj->validate($_POST, $validations)->isError());
+    if (!$obj->validate($_POST, $validations)->isError()) {
+        $file = new FileUpload($_FILES, "docs", "files");
+        $file->upload();
+    }
 }
 ?>
 
@@ -55,7 +63,7 @@ if (isset($_POST['submit'])) {
             echo '</div>';
         }
         ?>
-        <form action="<?php echo  htmlspecialchars($_SERVER['PHP_SELF']) ?>" method="post">
+        <form action="<?php echo  htmlspecialchars($_SERVER['PHP_SELF']) ?>" method="post" enctype="multipart/form-data">
 
             <div class="mb-3">
                 <label for="exampleInputEmail0" class="form-label">Name</label>
@@ -68,6 +76,10 @@ if (isset($_POST['submit'])) {
             <div class="mb-3">
                 <label for="exampleInputPassword1" class="form-label">Phone</label>
                 <input type="text" name="phone" value='<?php echo "{$obj->old('phone')}"; ?>' class="form-control" id="exampleInputPassword1">
+            </div>
+            <div class="mb-3">
+                <label for="exampleInputPassword1" class="form-label">File Upload</label>
+                <input type="file" name="docs" class="form-control" id="exampleInputPassword1">
             </div>
 
             <button type="submit" name="submit" class="btn btn-primary">Submit</button>
