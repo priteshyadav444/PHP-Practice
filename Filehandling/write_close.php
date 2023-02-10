@@ -4,4 +4,5 @@ $content = "Pritesh yadav \n";
 
 $file = fopen($path, 'a+');
 fwrite($file, $content);
+
 fclose($file);
