@@ -1,8 +1,8 @@
 <?php
-
+namespace Pincode;
 /**
  * PincodeData
- * @author Aadrah halder (hadrash04@gmail.com)
+ * @author AAdarsh halder (hadrash04@gmail.com)
  */
 class PincodeData
 {

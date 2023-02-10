@@ -209,7 +209,7 @@ class Validate extends \ErrorHandler
      * @param  mixed $dataTypes
      * @return void
      */
-    public function validateInput($input, $dataTypes)
+    public static function validateInput($input, $dataTypes)
     {
         if (isset($input) && ($dataTypes == 'int' || $dataTypes == 'string')) {
             $functionName = "get" . ucfirst($dataTypes);
