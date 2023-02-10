@@ -1,6 +1,8 @@
 <?php
-include_once '../ValidateProgram/Validate.php';
+$path = "../validation/Validators/Validate.php";
+include $path;
 use ValidateClass\Validate;
+
 class Student extends Validate
 {
     private $studentId;
