@@ -1,7 +1,6 @@
 <?php
 $path = "../validation/Validators/Validate.php";
 include $path;
-
 use ValidateClass\Validate;
 
 abstract class Person extends Validate
@@ -41,8 +40,8 @@ class Student extends Person
     }
     public  function readData()
     {
-        $name = parent::validateInput(parent::extractString(readLine("Enter Name : ")), 'string');
-        $address =  parent::validateInput(readLine("Enter Address : "), 'string');
+        $name = Validate::validateInput(Validate::extractString(readLine("Enter Name : ")), 'string');
+        $address =  Validate::validateInput(readLine("Enter Address : "), 'string');
         $this->setCustomer($name, $address);
     }
     public function getNewId()

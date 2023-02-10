@@ -1,5 +1,5 @@
 <?php
-include './StudentCollection.php';
+include 'StudentCollection.php';
 class StudentMenu extends StudentCollection
 {
     private $menuItems = array(1 => 'Create New Records', 2 => 'View All Records', 3 => 'Delete Records',  4 => 'Update Records', 5 => 'Search Records', 6 => 'Exit');

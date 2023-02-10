@@ -1,10 +1,10 @@
 <?php
-include_once './Student.php';
+include_once 'Student.php';
 include_once '../ValidateProgram/Validate.php';
+include 'StudentDB.php';
 
 use ValidateClass\Validate;
 
-include './StudentDB.php';
 
 class StudentCollection extends Validate
 {
@@ -26,7 +26,7 @@ class StudentCollection extends Validate
             }
         }
         // else{
-        //     parent::echoit("No Record Found!!");
+        //     Validate::echoit("No Record Found!!");
 
         // }
     }
@@ -39,7 +39,7 @@ class StudentCollection extends Validate
         $student = new Student();
         $student->readData();
         if ($this->DB->insertStudent($student->getName(), $student->getAddress())) {
-            parent::echoit("Record Inserted!!");
+            Validate::echoit("Record Inserted!!");
             self::populateData();
         } else {
             Validate::echoit("Request Failed!!");
@@ -58,10 +58,10 @@ class StudentCollection extends Validate
     public function deleteStudent()
     {
         if (count($this->objects) == 0) {
-            parent::echoit("Dataset is Empty!!");
+            Validate::echoit("Dataset is Empty!!");
             return;
         }
-        $id = parent::extractInteger(readLine("Enter Id : "));
+        $id = Validate::extractInteger(readLine("Enter Id : "));
         $flag = false;
         if ($this->DB->deleteStudent($id)) {
             self::populateData();
@@ -76,7 +76,7 @@ class StudentCollection extends Validate
     public function searchStudent()
     {
         if (count($this->objects) == 0) {
-            parent::echoit("Dataset is Empty!!");
+            Validate::echoit("Dataset is Empty!!");
             return;
         }
         $id = Validate::extractInteger(readLine("Enter Id to Update: "));
@@ -98,7 +98,7 @@ class StudentCollection extends Validate
     {
         $flag = false;
         if (count($this->objects) == 0) {
-            parent::echoit("Dataset is Empty!!");
+            Validate::echoit("Dataset is Empty!!");
             return;
         }
         $id = Validate::extractInteger(readLine("Enter Id to Update: "));
