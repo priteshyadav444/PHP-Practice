@@ -25,25 +25,22 @@
 </head>
 <?php
 
-// include_once '\validation\Validators\FormValidator';
-$path = "../../validation/Validators/FormValidator.php";
-// $path = "../../validation/Validators/FileValidator.php";
-// echo $path;
-include $path;
 
-use Form\FormValidator as FormValidator;
+$path = "../../validation/Validators/FormValidator.php";
+include $path;
+// include "../../validation/Validators/FileValidator.php";
+
+use Validators\FormValidator;
+use Validators\FileValidator;
 
 $obj = new FormValidator();
-// var_dump($_POST);
 if (isset($_POST['submit'])) {
     $validations = [
-        'name' => 'string',
-        'email' => 'email',
-        'phone' => 'numeric|min:10|max:10',
-        'docs' => 'required|filetype:txt'
+
+        'docs' => 'required|filetype:pdf|max:100'
     ];
     if (!$obj->validate($_POST, $validations)->isError()) {
-        $file = new FileUpload($_FILES, "docs", "files");
+        $file = new FileValidator($_FILES, "docs", "files");
         $file->upload();
     }
 }
