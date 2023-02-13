@@ -28,6 +28,8 @@
 
 $path = "../../validation/Validators/FormValidator.php";
 include $path;
+// require_once 'vender/autoload.php';
+
 // include "../../validation/Validators/FileValidator.php";
 
 use Validators\FormValidator;
@@ -35,8 +37,10 @@ use Validators\FileValidator;
 
 $obj = new FormValidator();
 if (isset($_POST['submit'])) {
-    $validations = [
+    var_dump($_POST);
 
+    $validations = [
+        'name' => "required",
         'docs' => 'required|filetype:pdf|max:100'
     ];
     if (!$obj->validate($_POST, $validations)->isError()) {
@@ -61,7 +65,7 @@ if (isset($_POST['submit'])) {
         }
         ?>
         <form action="<?php echo  htmlspecialchars($_SERVER['PHP_SELF']) ?>" method="post" enctype="multipart/form-data">
-
+            <input type="hidden" name="<?php echo ini_get("session.upload_progress.name"); ?>" value="123" />
             <div class="mb-3">
                 <label for="exampleInputEmail0" class="form-label">Name</label>
                 <input type="text" name="name" value='<?php echo "{$obj->old('name')}"; ?>' class="form-control" id="exampleInputEmail0" aria-describedby="emailHelp">
