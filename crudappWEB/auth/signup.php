@@ -35,13 +35,13 @@ include $path;
 use Validators\FormValidator;
 use Validators\FileValidator;
 
+
 $obj = new FormValidator();
 if (isset($_POST['submit'])) {
     var_dump($_POST);
 
     $validations = [
-        'name' => "required",
-        'docs' => 'required|filetype:pdf|max:100'
+        'docs' => 'required|filetype:pdf|max:40000'
     ];
     if (!$obj->validate($_POST, $validations)->isError()) {
         $file = new FileValidator($_FILES, "docs", "files");
