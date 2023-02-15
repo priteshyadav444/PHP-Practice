@@ -26,20 +26,15 @@
 <?php
 
 
-$path = "../../validation/Validators/FormValidator.php";
+$path = "../../validation/vendor/autoload.php";
 include $path;
-// require_once 'vender/autoload.php';
 
-// include "../../validation/Validators/FileValidator.php";
-
-use Validators\FormValidator;
-use Validators\FileValidator;
-
+use Validation\Validators\FormValidator;
+use Validation\Validators\FileValidator;
 
 $obj = new FormValidator();
-if (isset($_POST['submit'])) {
-    var_dump($_POST);
 
+if (isset($_POST['submit'])) {
     $validations = [
         'docs' => 'required|filetype:pdf|max:40000'
     ];
