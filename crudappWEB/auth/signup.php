@@ -36,7 +36,8 @@ $obj = new FormValidator();
 
 if (isset($_POST['submit'])) {
     $validations = [
-        'docs' => 'required|filetype:pdf|max:40000'
+        'docs' => 'required|filetype:pdf|max:40000',
+        'name' => 'required|pincode'
     ];
     if (!$obj->validate($_POST, $validations)->isError()) {
         $file = new FileValidator($_FILES, "docs", "files");
