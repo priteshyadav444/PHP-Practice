@@ -1,9 +1,8 @@
 <?php
 // Sample dates : 1981-11-04, 2013-09-04
 // Expected Result : 31 years, 10 months, 11 days
-$date1 = "2023-02-01";
-$date2 = "2023-02-04";
-
+$date1 = "2024-02-30";
+$date2 = "2024-03-01";
 
 $years = 0;
 $months = 0;

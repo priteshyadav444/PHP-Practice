@@ -1,0 +1,15 @@
+<VirtualHost 127.0.0.40:443>
+    # Enable HTTP/2 on this Vhost
+    Protocols h2 h2c http/1.1
+    # Rest of the configuration ...
+    DocumentRoot "C:/xampp/htdocs/programs/HTTP"
+    ServerName myproject
+    SSLEngine on
+    SSLCertificateFile "conf/ssl.crt/server.crt"
+    SSLCertificateKeyFile "conf/ssl.key/server.key"
+    <Directory "C:/xampp/htdocs/programs/HTTP">
+        Options All
+    	AllowOverride All
+    	Require all granted
+    </Directory>
+</VirtualHost>
