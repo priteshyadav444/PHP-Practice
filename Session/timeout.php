@@ -1,13 +1,26 @@
 <?php
-setcookie('myvar', "123", time() + 3600, "/", "", "true");
-session_start();
-$_SESSION["myvar"] = "123";
+@session_start();
+@session_start();
+
+$_SESSION["myvar"] = array("pRITESH", "yADAV");
+$_SESSION["my|!12"] = "Pritesh";
 
 echo "<pre>";
-var_export($_SESSION["myvar"]);
 
+print_r(session_id());
+print_r(session_id());
+print_r(session_id());
+
+echo "{$_SESSION['my|!12']} <br>";
 echo "Session :";
+
 print_r($_SESSION);
-echo "Cookies :";
+
+echo "<br>Cookies :";
 print_r($_COOKIE);
+
+$_SESSION['usenname'] = "username";
+$_SESSION['password'] = "password";
+
+print_r($_SESSION);
 session_destroy();
