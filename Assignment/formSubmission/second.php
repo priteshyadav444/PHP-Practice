@@ -9,7 +9,8 @@
 </head>
 <?php
 session_start();
-
+echo "<pre> Session State :";
+print_r($_SESSION);
 if (!empty($_SESSION['redirect'])) {
     $redirectPage = $_SESSION['redirect'];
     if ($redirectPage != 'second.php') {
@@ -58,7 +59,7 @@ if (isset($_POST['submit'])) {
     <form action="<?php htmlspecialchars($_SERVER['PHP_SELF']) ?>" method="POST">
         <h4> Enter your City : </h4>
         <input type="text" name="city" value=<?php echo $obj->old('city'); ?>><br>
-        <h4> Select Your State : </h4> 
+        <h4> Select Your State : </h4>
         <select name="state">
             <option value="Andhra Pradesh">Andhra Pradesh</option>
             <option value="Andaman and Nicobar Islands">Andaman and Nicobar Islands</option>

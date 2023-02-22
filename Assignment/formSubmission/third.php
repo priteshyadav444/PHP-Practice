@@ -17,6 +17,7 @@ if (!empty($_SESSION['redirect'])) {
 }
 if (empty($_SESSION['first_name']) or empty($_SESSION['last_name']) or empty($_SESSION['email']) or empty($_SESSION['username']) or empty($_SESSION['dob']) or empty($_SESSION['city']) or empty($_SESSION['state'])) {
     echo "<script> alert('Some Fields Are Lost. Please Start Again'); </script>";
+    session_destroy();
     header('location: first.php');
 } else {
     $FIRSTNAME = $_SESSION['first_name'];

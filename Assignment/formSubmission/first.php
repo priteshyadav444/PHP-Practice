@@ -67,6 +67,7 @@ if (isset($_POST['submit'])) {
         $_SESSION['last_name'] = $obj->senitizeInput($_POST['last_name']);
         $_SESSION['email'] = $obj->senitizeInput($_POST['email']);
         $_SESSION['username'] = $obj->senitizeInput($_POST['username']);
+
         $_SESSION['redirect'] = "second.php";
         header('location: second.php');
     }
