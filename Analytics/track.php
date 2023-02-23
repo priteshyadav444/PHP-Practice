@@ -33,39 +33,51 @@ class Analytics
             $this->conn->insertEngagementLog($info);
         }
     }
-    public function track()
+    public function startTracker()
     {
-        $this->generatLog();
-        
-        // checking tracking set or not
-        if ($this->isCookieSet($this->trackingKey)) {
-            // update engagment if session is set
-            if ($this->isSessionSet($this->engagementKey)) {
-                $this->updateEngagement();
-            }
-            
-            $retation_date = new DateTime($_COOKIE[$this->trackingKey]);
-            $current_date = new DateTime($this->getDate());
-            
-            $diff = date_diff($retation_date, $current_date);
-            
-            // Update Retention if Tracking Cookies date is not todays.
-            if ($diff->days != 0) {
-                $this->updateRetentionLog();
-                $this->resetTracker();
-            } else {
-                $this->setEngagementSession();
-            }
-        } else {
-            $this->resetTracker();
-        }
+        $this->resetTracker();
     }
-    
+    public function checkRetention()
+    {
+        $retation_date = new DateTime($_COOKIE[$this->trackingKey]);
+        $current_date = new DateTime($this->getDate());
+        
+        $diff = date_diff($retation_date, $current_date);
+        return $diff;
+    }
     public function resetTracker()
     {
         $this->setRetentionCookie();
         $this->setEngagementSession();
     }
+    public function getTimeDiffrenceInSecond()
+    {
+        $engagement_date = new DateTime($_SESSION[$this->engagementKey]);
+        $current_date = new DateTime($this->getDate());
+        $time_diff_second = date_diff($engagement_date, $current_date)->s;
+        return $time_diff_second;
+    }
+    public function track()
+    {
+        $this->generatLog();
+
+        // checking tracking cookie  set or not
+        if ($this->isCookieSet($this->trackingKey)) {
+            // update engagment if session is set
+            if ($this->isSessionSet($this->engagementKey)) {
+                $this->updateEngagement();
+                $this->setEngagementSession();
+            }
+            // Update Retention if Tracking Cookies date is not todays.
+            if ($this->checkRetention() != 0) {
+                $this->updateRetentionLog();
+                $this->resetTracker();
+            }
+        } else {
+            $this->startTracker();
+        }
+    }
+
     public function generatLog()
     {
         $info = array();
@@ -75,7 +87,7 @@ class Analytics
         $info[3] = $this->userInfo->getRegionName() . "/" . $this->userInfo->getCity() . "/" . $this->userInfo->getCountryName();
         $info[4] = $this->userInfo->getBrowser();
         $info[5] = $this->userInfo->getDevice();
-        
+
         $this->conn->insertVisitorLog($info);
     }
     public function updateRetentionLog()
@@ -86,15 +98,11 @@ class Analytics
     }
     public function updateEngagement()
     {
-        $engagement_date = new DateTime($_SESSION[$this->engagementKey]);
-        $current_date = new DateTime($this->getDate());
-        $time_diff_sec = date_diff($engagement_date, $current_date)->s;
-        $hour = 3600;
-        
+        $time_diff_second = $this->getTimeDiffrenceInSecond();
+        $seconds_in_hours = 3600;
         // checking engagment time in second.
-        if ($time_diff_sec < $hour && $time_diff_sec > 0) {
-            echo "inside";
-            $info[0] = $time_diff_sec;
+        if ($time_diff_second < $seconds_in_hours && $time_diff_second > 0) {
+            $info[0] = $time_diff_second;
             $info[1] = $this->isCookieSet($this->sessionKey) ? $_COOKIE[$this->sessionKey] : "000";
             $this->conn->updateEngagementLog($info);
         }
