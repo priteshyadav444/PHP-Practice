@@ -62,6 +62,7 @@ class ConnectionLog
         $statement->bind_param("s", $data[0]);
         $statement->execute();
     }
+    // check if session is alerady there then insert into todays engagement
     public function insertEngagementLog($data)
     {
         $query  = "SELECT * FROM `engagement_logs` WHERE `log_id`=? limit 1";
@@ -70,7 +71,6 @@ class ConnectionLog
         $statement->execute();
 
         $result = $statement->get_result(); // get the mysqli result
-        var_dump($result);
         if ($result->num_rows == 0) {
             $query  = "INSERT INTO `engagement_logs`(`log_id`) VALUES (?)";
             $statement = $this->connection->prepare($query);
@@ -78,6 +78,7 @@ class ConnectionLog
             $statement->execute();
         }
     }
+    // update engagement log if 
     public function updateEngagementLog($data)
     {
         $query  = "UPDATE `engagement_logs` SET `engagement_time`=? WHERE `log_id`=?";

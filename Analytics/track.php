@@ -1,41 +1,34 @@
 <?php
-// 
-
-use FTP\Connection;
-
 @session_start();
 
 
 
 include './Userinfo.php';
 include './connection.php';
-
-class Analytics
+class IdConfig
 {
     public $trackingKey  = "visitid";
     public $engagementKey = "engid";
     public $sessionKey = "PHPSESSID";
     public $domain = ""; // mention your domain name in .example.com 
+    public function __construct($trackingKey = "visitid", $engagementKey = "engid", $sessionKey = "PHPSESSID", $domain = "")
+    {
+        $this->trackingKey = $trackingKey;
+        $this->engagementKey = $engagementKey;
+        $this->sessionKey = $sessionKey;
+        $this->$domain = $domain;
+    }
+}
+class Analytics
+{
+
     public $userInfo = "";
     public $conn = "";
 
-    public function __construct($userInfo = null, $conn = null)
+    public function __construct(UserInfo $userInfo = null, ConnectionLog $conn = null, IdConfig $idConfig)
     {
         $this->userInfo = $userInfo;
         $this->conn = $conn;
-    }
-    public function isCookieSet($key = null): bool
-    {
-        return !empty($_COOKIE[$key]);
-    }
-    public function isSessionSet($key = null): bool
-    {
-        return !empty($_SESSION[$key]);
-    }
-    public function getDate(): string
-    {
-        $result = date("Y-m-d H:i:s");
-        return $result;
     }
     public function setRetentionCookie()
     {
@@ -50,55 +43,51 @@ class Analytics
             $this->conn->insertEngagementLog($info);
         }
     }
-    public function track()
+    public function startTracker()
     {
-        // generate logs 
-        $this->generatLog();
-
-        if ($this->isCookieSet($this->trackingKey)) {
-            // update engagment time in database
-            if ($this->isSessionSet($this->engagementKey)) {
-                $engagement_date = new DateTime($_SESSION[$this->engagementKey]);
-                $current_date = new DateTime($this->getDate());
-                $time_diff_sec = date_diff($engagement_date, $current_date)->s;
-                $hour = 3600;
-
-                // checking engagment time in second.
-                if ($time_diff_sec < $hour && $time_diff_sec > 0) {
-                    echo "inside";
-                    $info[0] = $time_diff_sec;
-                    $info[1] = $this->isCookieSet($this->sessionKey) ? $_COOKIE[$this->sessionKey] : "000";
-                    $this->conn->updateEngagementLog($info);
-                }
-            }
-            $retation_date = new DateTime($_COOKIE[$this->trackingKey]);
-            $current_date = new DateTime($this->getDate());
-
-            $diff = date_diff($retation_date, $current_date);
-            // update retention
-            if ($diff->days != 0) {
-                $this->updateRetentionLog();
-                $this->resetTracker();
-            } else {
-                $this->setEngagementSession();
-            }
-        } else {
-            $this->resetTracker();
-        }
+        $this->resetTracker();
     }
-    public function updateRetentionLog()
+    public function checkRetention()
     {
-        $info = array();
-        $info[0] = $this->isCookieSet($this->sessionKey) ? $_COOKIE[$this->sessionKey] : "000";
-        $this->conn->insertRetentionLog($info);
+        $retation_date = new DateTime($_COOKIE[$this->trackingKey]);
+        $current_date = new DateTime($this->getDate());
+
+        $diff = date_diff($retation_date, $current_date);
+        return $diff;
     }
     public function resetTracker()
     {
         $this->setRetentionCookie();
-        // insert into retention table
         $this->setEngagementSession();
-        // insert into engagement table
     }
+    public function getTimeDiffrenceInSecond()
+    {
+        $engagement_date = new DateTime($_SESSION[$this->engagementKey]);
+        $current_date = new DateTime($this->getDate());
+        $time_diff_second = date_diff($engagement_date, $current_date)->s;
+        return $time_diff_second;
+    }
+    public function track()
+    {
+        $this->generatLog();
+
+        // checking tracking cookie  set or not
+        if ($this->isCookieSet($this->trackingKey)) {
+            // update engagment if session is set
+            if ($this->isSessionSet($this->engagementKey)) {
+                $this->updateEngagement();
+                $this->setEngagementSession();
+            }
+            // Update Retention if Tracking Cookies date is not todays.
+            if ($this->checkRetention() != 0) {
+                $this->updateRetentionLog();
+                $this->resetTracker();
+            }
+        } else {
+            $this->startTracker();
+        }
+    }
+
     public function generatLog()
     {
         $info = array();
@@ -111,36 +100,40 @@ class Analytics
 
         $this->conn->insertVisitorLog($info);
     }
-    // generate Visitor Id using tracking id
-    public function generateVisitorId()
+    public function updateRetentionLog()
     {
+        $info = array();
+        $info[0] = $this->isCookieSet($this->sessionKey) ? $_COOKIE[$this->sessionKey] : "000";
+        $this->conn->insertRetentionLog($info);
     }
-
-    // get Tracking Id
-    public function getTrackingId()
+    public function updateEngagement()
     {
-        return $this->trackingKey;
+        $time_diff_second = $this->getTimeDiffrenceInSecond();
+        $seconds_in_hours = 3600;
+        // checking engagment time in second.
+        if ($time_diff_second < $seconds_in_hours && $time_diff_second > 0) {
+            $info[0] = $time_diff_second;
+            $info[1] = $this->isCookieSet($this->sessionKey) ? $_COOKIE[$this->sessionKey] : "000";
+            $this->conn->updateEngagementLog($info);
+        }
     }
-
-
-    // check passed id available in database
-    public function isUniqueUser($visitorId = null)
+    public function isCookieSet($key = null): bool
     {
-        $isAvialable = true;
-        return $isAvialable;
+        return !empty($_COOKIE[$key]);
     }
-    // on both case increase visitor count. for unqiue increase unique visitor count. 
-    public function incrementVisitor()
+    public function isSessionSet($key = null): bool
     {
-        static $visitor = 0;
-        $visitor++;
+        return !empty($_SESSION[$key]);
+    }
+    public function getDate(): string
+    {
+        $result = date("Y-m-d H:i:s");
+        return $result;
     }
 }
-$userInfo = new UserInfo();
-$conn = new ConnectionLog();
-$obj = new Analytics($userInfo, $conn);
-echo "<pre>";
 
-print_r($_SESSION);
-print_r($_COOKIE);
+
+$database = new Database("localhost", "root", "", "student");
+$obj = new Analytics(new UserInfo(), new ConnectionLog($database), new IdConfig());
+
 $obj->track();

@@ -28,5 +28,3 @@ CREATE TABLE `retantion_logs` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 
-
-// visitor count Table

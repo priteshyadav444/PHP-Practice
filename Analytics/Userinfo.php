@@ -6,9 +6,6 @@ class UserInfo
     private $browserInfo;
     private $geoInfo;
 
-    /**
-     * Autoload information from external services and set values of internal proprties
-     */
     public function __construct()
     {
         //use try-catch to prevent error when server is not configured to use browscap (get_browser() function)
