@@ -5,17 +5,27 @@
 
 include './Userinfo.php';
 include './connection.php';
-
-class Analytics
+class IdConfig
 {
     public $trackingKey  = "visitid";
     public $engagementKey = "engid";
     public $sessionKey = "PHPSESSID";
     public $domain = ""; // mention your domain name in .example.com 
+    public function __construct($trackingKey = "visitid", $engagementKey = "engid", $sessionKey = "PHPSESSID", $domain = "")
+    {
+        $this->trackingKey = $trackingKey;
+        $this->engagementKey = $engagementKey;
+        $this->sessionKey = $sessionKey;
+        $this->$domain = $domain;
+    }
+}
+class Analytics
+{
+
     public $userInfo = "";
     public $conn = "";
 
-    public function __construct(UserInfo $userInfo, ConnectionLog $conn = null)
+    public function __construct(UserInfo $userInfo = null, ConnectionLog $conn = null, IdConfig $idConfig)
     {
         $this->userInfo = $userInfo;
         $this->conn = $conn;
@@ -41,7 +51,7 @@ class Analytics
     {
         $retation_date = new DateTime($_COOKIE[$this->trackingKey]);
         $current_date = new DateTime($this->getDate());
-        
+
         $diff = date_diff($retation_date, $current_date);
         return $diff;
     }
@@ -124,6 +134,6 @@ class Analytics
 
 
 $database = new Database("localhost", "root", "", "student");
-$obj = new Analytics(new UserInfo(), new ConnectionLog($database));
+$obj = new Analytics(new UserInfo(), new ConnectionLog($database), new IdConfig());
 
 $obj->track();
