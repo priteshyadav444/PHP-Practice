@@ -12,12 +12,12 @@ CREATE TABLE `visitor_logs` (
 
 
 CREATE TABLE `engagement_logs` (
- `id` int(11) NOT NULL AUTO_INCREMENT,
- `log_id` varchar(16) NOT NULL FOREIGN_KEY visitor_logs.id,
+ `eid` int(11) NOT NULL AUTO_INCREMENT,
+ `log_id` varchar(25) NOT NULL DEFAULT 000,
  `created` datetime NOT NULL DEFAULT current_timestamp(),
  `engagement_time` int(5) NOT NULL DEFAULT 0,
- `last_visited_at` datetime NOT NULL DEFAULT current_timestamp(),
- PRIMARY KEY (`id`)
+ `last_visited_at` datetime DEFAULT current_timestamp(),
+ PRIMARY KEY (`eid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 CREATE TABLE `retantion_logs` (
