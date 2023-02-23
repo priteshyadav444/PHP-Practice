@@ -10,11 +10,11 @@ use FTP\Connection;
 include './Userinfo.php';
 include './connection.php';
 
-echo $_SERVER['HTTP_USER_AGENT'];
 class Analytics
 {
     public $trackingKey  = "visitid";
     public $engagementKey = "engid";
+    public $sessionKey = "PHPSESSID";
     public $domain = ""; // mention your domain name in .example.com 
     public $userInfo = "";
     public $conn = "";
@@ -44,7 +44,11 @@ class Analytics
     public function setEngagementSession()
     {
         $_SESSION[$this->engagementKey] = $this->getDate();
-        // setcookie($this->engagementKey, new DateTime(), strtotime("+1 week"), "/", $this->domain, true);
+
+        if ($this->sessionKey) {
+            $info[0] = session_id();
+            $this->conn->insertEngagementLog($info);
+        }
     }
     public function track()
     {
@@ -61,10 +65,11 @@ class Analytics
 
                 // checking engagment time in second.
                 if ($time_diff_sec < $hour && $time_diff_sec > 0) {
-                    echo $time_diff_sec;
-                    // update engagement log in database
+                    echo "inside";
+                    $info[0] = $time_diff_sec;
+                    $info[1] = $this->isCookieSet($this->sessionKey) ? $_COOKIE[$this->sessionKey] : "000";
+                    $this->conn->updateEngagementLog($info);
                 }
-                // check retantion 
             }
             $retation_date = new DateTime($_COOKIE[$this->trackingKey]);
             $current_date = new DateTime($this->getDate());
@@ -72,8 +77,7 @@ class Analytics
             $diff = date_diff($retation_date, $current_date);
             // update retention
             if ($diff->days != 0) {
-                echo "Date is not Same";
-                // update retention date
+                $this->updateRetentionLog();
                 $this->resetTracker();
             } else {
                 $this->setEngagementSession();
@@ -81,6 +85,12 @@ class Analytics
         } else {
             $this->resetTracker();
         }
+    }
+    public function updateRetentionLog()
+    {
+        $info = array();
+        $info[0] = $this->isCookieSet($this->sessionKey) ? $_COOKIE[$this->sessionKey] : "000";
+        $this->conn->insertRetentionLog($info);
     }
     public function resetTracker()
     {
@@ -129,8 +139,8 @@ class Analytics
 $userInfo = new UserInfo();
 $conn = new ConnectionLog();
 $obj = new Analytics($userInfo, $conn);
-
-
-$obj->track();
-
 echo "<pre>";
+
+print_r($_SESSION);
+print_r($_COOKIE);
+$obj->track();
