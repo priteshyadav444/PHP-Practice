@@ -1,25 +1,45 @@
 <?php
+class Database
+{
+    private $servername;
+    private $username;
+    private $password;
+    private $db;
+
+    public function __construct($servername, $username, $password, $db)
+    {
+        $this->servername = $servername;
+        $this->username = $username;
+        $this->password = $password;
+        $this->db = $db;
+    }
+
+    public function connect()
+    {
+        try {
+            $connection = new mysqli($this->servername, $this->username, $this->password, $this->db);
+            if ($connection->connect_error) {
+                throw new Exception("Database connection failed: " . $connection->connect_error);
+            }
+            return $connection;
+        } catch (Exception $e) {
+            throw new Exception("Database connection error: " . $e->getMessage());
+        }
+    }
+}
 
 class ConnectionLog
 {
-    private $servername = "localhost";
-    private $username = "root";
-    private $password = "";
-    private $db = "student_database";
-
     private $connection;
 
-    public function __construct()
+    public function __construct(Database $database)
     {
         # Create connection
-        $this->connection = new mysqli($this->servername, $this->username, $this->password, $this->db) or die("Connect failed: %s\n" . $this->connection->error);
-        if ($this->connection->connect_error) {
-            die("Connection failed: " . $this->connection->connect_error);
-        }
+        $this->connection = $database->connect();
     }
     public function __destruct()
     {
-        # echo "Connection Close";
+        # "Connection Close";
         $this->connection->close();
     }
 
