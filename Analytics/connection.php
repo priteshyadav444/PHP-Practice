@@ -35,26 +35,34 @@ class ConnectionLog
         $statement->bind_param("ssssss", $data[0], $data[1], $data[2], $data[3], $data[4], $data[5]);
         $statement->execute();
     }
-    public function getListing()
+    public function insertRetentionLog($data)
     {
-        $sql = "SELECT * FROM student order by name";
-        $result = $this->connection->query($sql);
-        return $result;
+        $query  = "INSERT INTO `retantion_logs`(`log_id`) VALUES (?)";
+        $statement = $this->connection->prepare($query);
+        $statement->bind_param("s", $data[0]);
+        $statement->execute();
     }
-    public function deleteListing($id)
+    public function insertEngagementLog($data)
     {
-        $result = $this->connection->query("delete from student where id=$id");
-        return $result;
+        $query  = "SELECT * FROM `engagement_logs` WHERE `log_id`=? limit 1";
+        $statement = $this->connection->prepare($query);
+        $statement->bind_param("i", $data[0]);
+        $statement->execute();
+
+        $result = $statement->get_result(); // get the mysqli result
+        var_dump($result);
+        if ($result->num_rows == 0) {
+            $query  = "INSERT INTO `engagement_logs`(`log_id`) VALUES (?)";
+            $statement = $this->connection->prepare($query);
+            $statement->bind_param("s", $data[0]);
+            $statement->execute();
+        }
     }
-    public function updateListing($name, $email, $gender, $address, $qualification, $id)
+    public function updateEngagementLog($data)
     {
-        $result = $this->connection->query("update student set name='" . $name . "', email='" . $email . "', gender='" . $gender . "', address='" . $address . "', qualification='" . $qualification . "' where id='$id' ");
-        return $result;
-    }
-    public function getListingById($id)
-    {
-        $sql = "SELECT * FROM student where id=$id";
-        $result = $this->connection->query($sql);
-        return $result;
+        $query  = "UPDATE `engagement_logs` SET `engagement_time`=? WHERE `log_id`=?";
+        $statement = $this->connection->prepare($query);
+        $statement->bind_param("ii", $data[0], $data[1]);
+        $statement->execute();
     }
 }
