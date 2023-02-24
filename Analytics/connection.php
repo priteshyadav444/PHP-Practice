@@ -50,9 +50,9 @@ class ConnectionLog
 
     public function insertVisitorLog($data)
     {
-        $query  = "INSERT INTO `visitor_logs`( `page_url`, `referrer_url`, `user_ip_address`, `user_geo_location`, `user_agent`, `device`) VALUES (?,?,?,?,?,?)";
+        $query  = "INSERT INTO `visitor_logs`(`log_id`, `page_url`, `referrer_url`, `user_ip_address`, `user_geo_location`, `user_agent`, `device`) VALUES (?,?,?,?,?,?,?)";
         $statement = $this->connection->prepare($query);
-        $statement->bind_param("ssssss", $data[0], $data[1], $data[2], $data[3], $data[4], $data[5]);
+        $statement->bind_param("sssssss", $data[0], $data[1], $data[2], $data[3], $data[4], $data[5], $data[6]);
         $statement->execute();
     }
     public function insertRetentionLog($data)
@@ -67,7 +67,7 @@ class ConnectionLog
     {
         $query  = "SELECT * FROM `engagement_logs` WHERE `log_id`=? limit 1";
         $statement = $this->connection->prepare($query);
-        $statement->bind_param("i", $data[0]);
+        $statement->bind_param("s", $data[0]);
         $statement->execute();
 
         $result = $statement->get_result(); // get the mysqli result
@@ -81,9 +81,16 @@ class ConnectionLog
     // update engagement log if 
     public function updateEngagementLog($data)
     {
-        $query  = "UPDATE `engagement_logs` SET `engagement_time`=? WHERE `log_id`=?";
+        $query  = "UPDATE `engagement_logs` SET `engagement_time`=`engagement_time`+? WHERE `log_id`=?";
         $statement = $this->connection->prepare($query);
-        $statement->bind_param("ii", $data[0], $data[1]);
+        $statement->bind_param("is", $data[0], $data[1]);
         $statement->execute();
+
+        $affectedrow = $statement->affected_rows;
+
+        if ($affectedrow == 0) {
+            $info[0] = $data[1];
+            $this->insertEngagementLog($info);
+        }
     }
 }
