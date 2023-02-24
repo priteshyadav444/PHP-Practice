@@ -10,7 +10,7 @@ class UserInfo
     {
         //use try-catch to prevent error when server is not configured to use browscap (get_browser() function)
         try {
-            $this->browserInfo = get_browser($_SERVER['HTTP_USER_AGENT'], true);
+            $this->browserInfo = @get_browser($_SERVER['HTTP_USER_AGENT'], true);
         } catch (Exception $e) {
             $this->browserInfo = array();
         }
@@ -220,8 +220,8 @@ class UserInfo
     {
         $result = '';
 
-        if (is_array($this->geoInfo) && isset($this->geoInfo['country_name'])) {
-            $result = $this->geoInfo['country_name'];
+        if (is_array($this->geoInfo) && isset($this->geoInfo['country'])) {
+            $result = $this->geoInfo['country'];
         }
 
         return $result;
@@ -250,8 +250,8 @@ class UserInfo
     {
         $result = '';
 
-        if (is_array($this->geoInfo) && isset($this->geoInfo['region_name'])) {
-            $result = $this->geoInfo['region_name'];
+        if (is_array($this->geoInfo) && isset($this->geoInfo['region'])) {
+            $result = $this->geoInfo['region'];
         }
 
         return $result;
@@ -280,8 +280,8 @@ class UserInfo
     {
         $result = '';
 
-        if (is_array($this->geoInfo) && isset($this->geoInfo['zipcode'])) {
-            $result = $this->geoInfo['zipcode'];
+        if (is_array($this->geoInfo) && isset($this->geoInfo['postal'])) {
+            $result = $this->geoInfo['postal'];
         }
 
         return $result;
@@ -343,7 +343,7 @@ class UserInfo
      */
     private function getGeoInfo()
     {
-        $url = 'http://freegeoip.net/json/' . self::getIP();
+        $url = 'http://ipwho.is/' . self::getIP();
 
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_URL, $url);
@@ -352,9 +352,8 @@ class UserInfo
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
         $response = curl_exec($ch);
         curl_close($ch);
-
         $result = json_decode($response, true);
-
+        print_r($response);
         return $result;
     }
 }
