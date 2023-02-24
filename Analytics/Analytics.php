@@ -1,5 +1,6 @@
 <?php
 @session_start();
+date_default_timezone_set("Asia/Calcutta");
 
 include './Userinfo.php';
 include './connection.php';
@@ -37,7 +38,7 @@ class Analytics
     }
     public function setRetentionCookie()
     {
-        setcookie($this->trackingKey, $this->getDate(), strtotime("+1 week"), "/", $this->domain, true);
+        setcookie($this->trackingKey, $this->getDate(), strtotime("+1 week"), "/", $this->domain, false);
     }
     public function setEngagementSession($insertInDatabase = true)
     {
