@@ -25,7 +25,7 @@ CREATE TABLE `engagement_logs` (
   `engagement_time` int(5) NOT NULL DEFAULT 0,
   `last_visited_at` datetime DEFAULT current_timestamp(),
   PRIMARY KEY (`eid`)
-) ENGINE=InnoDB AUTO_INCREMENT=127 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 
 
@@ -40,7 +40,7 @@ CREATE TABLE `visitor_logs` (
   `device` varchar(10) DEFAULT NULL,
   `created` datetime NOT NULL DEFAULT current_timestamp(),
   PRIMARY KEY (`vid`)
-) ENGINE=InnoDB AUTO_INCREMENT=587 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 
 CREATE TABLE `retantion_logs` (
@@ -48,5 +48,5 @@ CREATE TABLE `retantion_logs` (
   `log_id` varchar(50) NOT NULL DEFAULT current_timestamp(),
   `created` datetime NOT NULL DEFAULT current_timestamp(),
   PRIMARY KEY (`rid`)
-) ENGINE=InnoDB AUTO_INCREMENT=65 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci
 

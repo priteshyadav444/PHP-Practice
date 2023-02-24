@@ -1,10 +1,6 @@
 <?php
 session_start();
-
-$_SESSION['name'] = "Pritesh";
-echo "<pre>";
+// session_unset();
 print_r($_SESSION);
-session_unset();
-$_SESSION['name'] = "Pritesh";
-
+session_destroy();
 print_r($_SESSION);

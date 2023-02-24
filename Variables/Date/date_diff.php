@@ -8,4 +8,4 @@ $date2 = new DateTime('yesterday');
 $diff = date_diff($date1, $date2);
 
 // %a outputs the total number of days
-echo $diff->format("Total number of days: %a.");
+echo $diff->format("Total number of days: %r%a.");

@@ -1,6 +1,5 @@
 <?php
 
-
 class UserInfo
 {
     private $browserInfo;
@@ -353,7 +352,6 @@ class UserInfo
         $response = curl_exec($ch);
         curl_close($ch);
         $result = json_decode($response, true);
-        print_r($response);
         return $result;
     }
 }

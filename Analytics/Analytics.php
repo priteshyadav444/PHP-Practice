@@ -4,6 +4,7 @@ date_default_timezone_set("Asia/Calcutta");
 
 include './Userinfo.php';
 include './connection.php';
+
 class IdConfig
 {
     public $trackingKey  = "visitid";
@@ -147,3 +148,6 @@ class Analytics
 $database = new Database("localhost", "root", "", "student_database");
 $obj = new Analytics(new UserInfo(), new ConnectionLog($database), new IdConfig());
 $obj->track();
+
+echo "<pre>";
+print_r($_SERVER);
