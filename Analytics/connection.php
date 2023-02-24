@@ -81,7 +81,7 @@ class ConnectionLog
     // update engagement log if 
     public function updateEngagementLog($data)
     {
-        $query  = "UPDATE `engagement_logs` SET `engagement_time`=`engagement_time`+? WHERE `log_id`=?";
+        $query  = "UPDATE `engagement_logs` SET `engagement_time`=`engagement_time`+?, `last_visited_at` = now()  WHERE `log_id`=?";
         $statement = $this->connection->prepare($query);
         $statement->bind_param("is", $data[0], $data[1]);
         $statement->execute();
