@@ -22,7 +22,14 @@
             $('#logtable').DataTable({
                 processing: true,
                 serverSide: true,
+                deferRender: true,
+                order: [
+                    [0, 'dsc']
+                ],
                 ajax: './api.php',
+                search: {
+                    return: true,
+                },
             });
         });
     </script>

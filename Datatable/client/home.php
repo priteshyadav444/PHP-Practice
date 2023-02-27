@@ -26,7 +26,7 @@
                 info: true,
                 scrollY: 400,
                 order: [
-                    [6, 'dsc']
+                    [0, 'dsc']
                 ],
                 columns: [{
                         data: 'created'
