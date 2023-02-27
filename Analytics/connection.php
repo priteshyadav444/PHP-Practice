@@ -93,4 +93,13 @@ class ConnectionLog
             $this->insertEngagementLog($info);
         }
     }
+    public function getAllVistorLog()
+    {
+        $query  = "SELECT created, log_id, page_url, referrer_url, user_ip_address, user_geo_location, device FROM `visitor_logs`";
+        $statement = $this->connection->prepare($query);
+        $statement->execute();
+
+        $result = $statement->get_result();
+        return $data = $result->fetch_all(MYSQLI_ASSOC);
+    }
 }

@@ -1,6 +1,5 @@
 <?php
-
-class ConnectionLog
+class ConnectionLog_Dub
 {
     private $servername = "localhost";
     private $username = "root";
@@ -23,7 +22,7 @@ class ConnectionLog
     }
     public function getAllVistorLog()
     {
-        $query  = "SELECT created, log_id, page_url, referrer_url, user_ip_address, user_geo_location, device FROM `visitor_logs`";
+        $query  = "SELECT created, log_id, page_url, referrer_url, user_ip_address, user_geo_location, device FROM `visitor_logs` asc";
         $statement = $this->connection->prepare($query);
         $statement->execute();
 

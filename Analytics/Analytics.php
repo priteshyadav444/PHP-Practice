@@ -2,8 +2,8 @@
 @session_start();
 date_default_timezone_set("Asia/Calcutta");
 
-include './Userinfo.php';
-include './connection.php';
+include 'Userinfo.php';
+include 'connection.php';
 
 class IdConfig
 {
@@ -155,5 +155,5 @@ $database = new Database("localhost", "root", "", "student_database");
 $obj = new Analytics(new UserInfo(), new ConnectionLog($database), new IdConfig());
 $obj->track();
 
-echo "<pre>";
-print_r($_SERVER);
+// echo "<pre>";
+// print_r($_SERVER);
