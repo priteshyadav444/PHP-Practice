@@ -83,9 +83,11 @@ class Analytics
         // checking tracking cookie  set or not
         if ($this->isCookieSet($this->trackingKey)) {
             // update engagment if session is set
+            $isSessionUpdated = false;
             if ($this->isSessionSet($this->engagementKey)) {
                 $this->updateEngagement();
                 $this->setEngagementSession(false);
+                $isSessionUpdated = true;
             }
             // Update Retention if Tracking Cookies date is not todays.
             if ($this->checkRetention() != 0) {
@@ -93,6 +95,10 @@ class Analytics
                     $this->updateRetentionLog();
                 }
                 $this->resetTracker();
+                $isSessionUpdated = true;
+            }
+            if ($isSessionUpdated = false) {
+                $this->setEngagementSession();
             }
         } else {
             $this->startTracker();
@@ -105,7 +111,7 @@ class Analytics
         $info[0] = $this->isCookieSet($this->sessionKey) ? $_COOKIE[$this->sessionKey] : "000";
         $info[] = $this->userInfo->getCurrentURL();
         $info[] = $this->userInfo->getRefererURL();
-        $info[] =  $this->userInfo->getIP();
+        $info[] = $this->userInfo->getIP();
         $info[] = $this->userInfo->getRegionName() . "/" . $this->userInfo->getCity() . "/" . $this->userInfo->getCountryName();
         $info[] = $this->userInfo->getBrowser();
         $info[] = $this->userInfo->getDevice();
@@ -115,7 +121,7 @@ class Analytics
     public function updateRetentionLog()
     {
         $info = array();
-        $info[0] = $this->isCookieSet($this->sessionKey) ? $_COOKIE[$this->sessionKey] : "000";
+        $info[0] = $this->isCookieSet($this->sessionKey) ? $_COOKIE[$this->sessionKey] : session_id();
         $this->conn->insertRetentionLog($info);
     }
     public function updateEngagement()
