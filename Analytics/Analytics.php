@@ -56,9 +56,8 @@ class Analytics
     }
     public function checkRetention()
     {
-        $retation_date = new DateTime($_COOKIE[$this->trackingKey]);
-        $current_date = new DateTime($this->getDate());
-
+        $retation_date = new DateTime(date_format(new DateTime($_COOKIE[$this->trackingKey]), "Y/m/d"));
+        $current_date = new DateTime($this->getDate("Y/m/d"));
         $diff = date_diff($retation_date, $current_date)->format("%r%a");
         return $diff;
     }
@@ -97,7 +96,7 @@ class Analytics
                 $this->resetTracker();
                 $isSessionUpdated = true;
             }
-            if ($isSessionUpdated = false) {
+            if ($isSessionUpdated == false) {
                 $this->setEngagementSession();
             }
         } else {
@@ -108,7 +107,7 @@ class Analytics
     public function generatLog()
     {
         $info = array();
-        $info[0] = $this->isCookieSet($this->sessionKey) ? $_COOKIE[$this->sessionKey] : "000";
+        $info[0] = $this->isCookieSet($this->sessionKey) ? $_COOKIE[$this->sessionKey] : session_id();
         $info[] = $this->userInfo->getCurrentURL();
         $info[] = $this->userInfo->getRefererURL();
         $info[] = $this->userInfo->getIP();
@@ -143,9 +142,9 @@ class Analytics
     {
         return !empty($_SESSION[$key]);
     }
-    public function getDate(): string
+    public function getDate($format = "Y-m-d H:i:s"): string
     {
-        $result = date("Y-m-d H:i:s");
+        $result = date($format);
         return $result;
     }
 }

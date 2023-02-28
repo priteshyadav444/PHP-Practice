@@ -1,10 +1,13 @@
 <?php
+$tracker->start();
+
+use Tracker\Helper\DatabaseConfig;
 
 include 'connection.php';
 include 'ObjectFormat.php';
 
-$database = new Database("localhost", "root", "", "student_database");
-$con = new ConnectionLog($database);
+$database = new DatabaseConfig("localhost", "root", "", "student_database");
+$con = new ConnectionLog_Dub($database);
 
 if (isset($_GET['logs'])) {
     if ($_GET['logs'] == "visitor") {
