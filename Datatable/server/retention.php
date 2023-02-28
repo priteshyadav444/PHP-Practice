@@ -15,7 +15,6 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
 
-    <!-- <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.13.2/js/dataTables.jqueryui.min.js"></script> -->
 
     <script type="text/javascript">
         $(document).ready(function() {
@@ -26,7 +25,7 @@
                 order: [
                     [0, 'dsc']
                 ],
-                ajax: './api.php?logs=visitor_logs',
+                ajax: './api.php?logs=retention_logs',
                 search: {
                     return: true,
                 },
@@ -63,11 +62,6 @@
                 <tr>
                     <th>Visited Date</th>
                     <th>Log id</th>
-                    <th>Page</th>
-                    <th>Referrer</th>
-                    <th>Ip Address</th>
-                    <th>Location</th>
-                    <th>Device</th>
                 </tr>
             </thead>
 
@@ -75,11 +69,6 @@
                 <tr>
                     <th>Visited Date</th>
                     <th>Log id</th>
-                    <th>Page</th>
-                    <th>Referrer</th>
-                    <th>Ip Address</th>
-                    <th>Location</th>
-                    <th>Device</th>
                 </tr>
             </tfoot>
         </table>

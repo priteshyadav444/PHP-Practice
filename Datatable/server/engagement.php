@@ -26,7 +26,7 @@
                 order: [
                     [0, 'dsc']
                 ],
-                ajax: './api.php?logs=visitor_logs',
+                ajax: './api.php?logs=engagement_logs',
                 search: {
                     return: true,
                 },
@@ -61,25 +61,19 @@
         <table id="logtable" class="display" style="width:100%">
             <thead>
                 <tr>
-                    <th>Visited Date</th>
+                    <th>Last Visited Date</th>
                     <th>Log id</th>
-                    <th>Page</th>
-                    <th>Referrer</th>
-                    <th>Ip Address</th>
-                    <th>Location</th>
-                    <th>Device</th>
+                    <th>Engagement Time</th>
+                    <th>Created At</th>
                 </tr>
             </thead>
 
             <tfoot>
                 <tr>
-                    <th>Visited Date</th>
+                    <th>Last Visited Date</th>
                     <th>Log id</th>
-                    <th>Page</th>
-                    <th>Referrer</th>
-                    <th>Ip Address</th>
-                    <th>Location</th>
-                    <th>Device</th>
+                    <th>Engagement Time</th>
+                    <th>Created At</th>
                 </tr>
             </tfoot>
         </table>
