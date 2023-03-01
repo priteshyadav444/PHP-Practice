@@ -1,0 +1,1 @@
+{"version":1,"defects":{"DataTypeTest::testInt":7,"DataTypeTest::testFloat":7,"DataTypeTest::testString":7,"DataTypeTest::testNull":7},"times":{"DataTypeTest::testInt":0.014,"DataTypeTest::testFloat":0.001,"DataTypeTest::testString":0,"DataTypeTest::testNull":0}}

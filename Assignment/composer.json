@@ -1,0 +1,18 @@
+{
+    "name": "priteshyadav444/programs",
+    "require-dev": {
+        "phpunit/phpunit": "^10.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "Priteshyadav444\\Programs\\": "./"
+        }
+    },
+    "authors": [
+        {
+            "name": "Pritesh Yadav",
+            "email": "priteshyadav2015@gmail.com"
+        }
+    ],
+    "require": {}
+}
