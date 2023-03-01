@@ -1,35 +1,32 @@
 <?php
-function printFibo($start, $noofelement)
+function printFibo($type, $noOfElement)
 {
 
-    $first = 0;
-    $second = 1;
-
-    $result = array();
-    $count = count($result);
-
-
-    while ($count < $noofelement) {
-        if ($start >= 0)
-            $nextFibo = $first + $second;
-        else
-            $nextFibo = $second - $first;
-
-        if (($start < 0 && $nextFibo == 1) || $start < 0) {
-            array_unshift($result, $nextFibo);
-            echo "if $nextFibo unshift $count \n";
-            $second = $first;
-            $first = $nextFibo;
-            $start = $nextFibo;
-        } else {
-            echo "else $nextFibo unshift $count \n";
-            array_push($result, $nextFibo);
-            $first = $second;
-            $second = $nextFibo;
+        $fib = array();
+    
+        // Add the starting points to the Fibonacci series
+        $fib[0] = 0;
+        $fib[1] = $type >= 0 ? 1 : -1;
+    
+        // Calculate the remaining elements in the series
+        if($type>=0){
+            for($i=2; $i<$noOfElement; $i++){
+                array_push($fib, $fib[count($fib)-2] + $fib[count($fib)-1]);
+            } 
         }
-        $count = count($result);
-    }
-    print_r($result);
+        else{
+            for($i=2; $i<$noOfElement; $i++){
+                array_unshift($fib, $fib[1] - $fib[0]);
+            }
+            $fib = array_reverse($fib);
+        }
+        
+    
+        // Print the Fibonacci series
+        foreach ($fib as $num) {
+            echo $num . " ";
+        }
+    
 }
 
 
