@@ -1,3 +1,10 @@
+<?php
+// contact details
+$location = "Locatins";
+$phone = "+71 9087654321";
+$email = "demo@gmail.com";
+?>
+
 <footer id="contact">
    <div class="footer">
       <div class="container">
@@ -9,9 +16,9 @@
             </div>
             <div class="col-md-8">
                <ul class="location_icon">
-                  <li><a href="#"><i class="fa fa-map-marker" aria-hidden="true"></i></a> Locatins</li>
-                  <li><a href="#"><i class="fa fa-volume-control-phone" aria-hidden="true"></i></a> +71 9087654321</li>
-                  <li><a href="#"><i class="fa fa-envelope" aria-hidden="true"></i></a>demo@gmail.com</li>
+                  <li><a href="#"><i class="fa fa-map-marker" aria-hidden="true"></i></a> <?php echo $title; ?></li>
+                  <li><a href="#"><i class="fa fa-volume-control-phone" aria-hidden="true"></i></a> <?php echo $phone; ?></li>
+                  <li><a href="#"><i class="fa fa-envelope" aria-hidden="true"></i></a> <?php echo $email; ?></li>
                </ul>
             </div>
             <div class="col-md-6">

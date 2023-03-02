@@ -1,3 +1,8 @@
+<?php
+// header details
+$title = "Classified Ads";
+$description = "It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English. Many desktop publishing packages and web page editors now use Lorem Ipsum as their default model text, and a search for 'lorem ipsum' will uncover many web sites still in";
+?>
 <header>
     <!-- header inner -->
     <div class="menu_sitbar">
@@ -38,8 +43,8 @@
                 <div class="row d_flex">
                     <div class="col-md-126">
                         <div class="text-bg">
-                            <h1>Classified Ads</h1>
-                            <span>It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English. Many desktop publishing packages and web page editors now use Lorem Ipsum as their default model text, and a search for 'lorem ipsum' will uncover many web sites still in</span>
+                            <h1><?php echo $title; ?></h1>
+                            <span><?php echo $description; ?></span>
                             <a href="#">Read More</a>
                         </div>
                     </div>
