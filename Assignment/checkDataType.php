@@ -1,5 +1,4 @@
 <?php
-
 function isInt($input): bool
 {
     $intValue = intval($input);

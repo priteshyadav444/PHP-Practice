@@ -11,11 +11,13 @@
 
 // include "./checkDataType.php";
 
+//check passed no is int or not
 function isInt($input): bool
 {
     $intValue = intval($input);
     return ($input == $intValue);
 }
+//check passed no is isFloat or not
 function isFloat($input): bool
 {
     $floatval = (float)$input;
@@ -23,6 +25,7 @@ function isFloat($input): bool
         if (isInt($input)) return false;
     return ($floatval == $input);
 }
+// main function which check data types null, float, int, boolean and string
 function checkDataType($data): string
 {
     if (strcasecmp($data, "null") == 0) {

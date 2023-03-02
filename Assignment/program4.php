@@ -27,7 +27,7 @@
 <?php
 
 
-
+// check passed no is prime or not
 function isPrime($input): bool
 {
     // for 1 or less than all values are not prime
@@ -40,15 +40,17 @@ function isPrime($input): bool
     }
     return true;
 }
+// print prime no as per passed range
 function printPrimeNo($start, $end)
 {
     if ($start > $end || $start <= 1) return;
-    echo "<br> Even Numbers :";
+    echo "<br> Prime Numbers :";
     for ($i = $start; $i <= $end; $i++) {
         if (isPrime($i))
             echo "$i ";
     }
 }
+// $start should ne less than $ned $type takes odd or even
 function printNumber($start, $end, $type)
 {
     if ($start > $end) return;
@@ -69,42 +71,37 @@ function printNumber($start, $end, $type)
         }
     }
 }
-function printFibo($start, $noofelement)
+
+// $type argument if postive than it start print fibonachi in positive and negative for negenive fibonachi
+function printFibo($type, $noOfElement)
 {
 
-    $first = 0;
-    $second = 1;
+    $fib = array();
 
-    $result = array();
-    $count = count($result);
+    // Add the starting points to the Fibonacci series
+    $fib[0] = 0;
+    $fib[1] =  1;
 
-    while ($count <= $noofelement) {
-        if ($start >= 0)
-            $nextFibo = $first + $second;
-        else
-            $nextFibo = $second - $first;
-
-        $nextFibo = $first + $second;
-
-
-        if (($start < 0 && $nextFibo == 1) || $start < 0) {
-            array_unshift($result, $nextFibo);
-            // echo "if $nextFibo unshift $count \n";
-        } else {
-            // echo "else $nextFibo unshift $count \n";
-
-            array_push($result, $nextFibo);
+    // Calculate the remaining elements in the series
+    if ($type >= 0) {
+        for ($i = 2; $i < $noOfElement; $i++) {
+            array_push($fib, $fib[count($fib) - 2] + $fib[count($fib) - 1]);
         }
-
-        $first = $second;
-        $second = $nextFibo;
-
-        $count = count($result);
+    } else {
+        for ($i = 2; $i < $noOfElement; $i++) {
+            array_unshift($fib, $fib[1] - $fib[0]);
+        }
+        array_pop($fib);
+        $fib = array_reverse($fib);
     }
-    for ($i = 0; $i < count($result); $i++) {
-        echo $result[$i] . " ";
+
+
+    // Print the Fibonacci series
+    foreach ($fib as $num) {
+        echo $num . " ";
     }
 }
+
 
 
 if (isset($_POST['submit'])) {

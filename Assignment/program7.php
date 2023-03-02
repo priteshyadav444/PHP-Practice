@@ -19,7 +19,7 @@
         ?>
         <br /><br />
         <label>Enter Username:</label><input type="text" name="username" required><br><br>
-        <label>Enter Mobile:</label><input type="text" name="mobileno" required> <br><br>
+        <label>Enter Mobile:</label><input type="number" name="mobileno" required><br><br>
 
         <input type="submit" name="submit" value="submit" />
     </form>
@@ -27,15 +27,17 @@
 <?php
 
 if (isset($_POST['submit'])) {
+    // check is username and mobile entered properly or not
+    if (!empty(trim($_POST['username'])) && !empty(trim($_POST['mobileno']))) {
 
-    if (!empty($_POST['username']) && !empty($_POST['mobileno'])) {
         $username = $_POST['username'];
         $mobileno = $_POST['mobileno'];
 
-        // using session to store registered user. using mobile no checking is already registerd or not
+        // Using session to store registered user data(username and mobile no). using $_SESSION['mobile'] to check is  already registerd or not
         if (isset($_SESSION['mobileno']) && $_SESSION['mobileno'] == $mobileno) {
             echo "<b style='color:red'>You have already registered.</b>";
         } else {
+            // stroing in session
             $_SESSION['username'] = $username;
             $_SESSION['mobileno'] = $mobileno;
             echo "<b style='color:green'> Your details saved successfully.</b>";

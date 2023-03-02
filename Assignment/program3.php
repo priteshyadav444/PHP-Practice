@@ -12,11 +12,13 @@
 
 // include "./checkDataType.php";
 
+//check passed no is int or not
 function isInt($input): bool
 {
     $intValue = intval($input);
     return ($input == $intValue);
 }
+//check passed no is isFloat or not
 function isFloat($input): bool
 {
     $floatval = (float)$input;
@@ -27,7 +29,7 @@ function isFloat($input): bool
 
 
 if (isset($_POST['submit'])) {
-    if (!empty($_POST['data']) && isFloat($_POST['data'])) {
+    if (!empty($_POST['data']) && isFloat($_POST['data']) || isInt($_POST['data']==true)) {
         echo round($_POST['data'], 2);
     } else {
         echo "Not Floating Number";
