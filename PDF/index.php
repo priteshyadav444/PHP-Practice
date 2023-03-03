@@ -15,5 +15,8 @@ $dompdf->setPaper('letter', 'portrait');
 // Render the HTML as PDF
 $dompdf->render();
 
+$output = $dompdf->output();
+$filname = "invoice" . rand(1, 100) . ".pdf";
+file_put_contents($filname, $output);
 // Output the generated PDF to Browser
-$dompdf->stream();
+$dompdf->stream("invoice.pdf");
