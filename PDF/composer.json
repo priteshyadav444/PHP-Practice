@@ -1,0 +1,17 @@
+{
+    "name": "priteshyadav444/pdf",
+    "autoload": {
+        "psr-4": {
+            "Priteshyadav444\\Pdf\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Pritesh Yadav",
+            "email": "priteshyadav2015@gmail.com"
+        }
+    ],
+    "require": {
+        "dompdf/dompdf": "^2.0"
+    }
+}
