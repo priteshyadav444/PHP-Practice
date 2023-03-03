@@ -1,5 +1,5 @@
 <?php
-$path = "Filehandling/new.txt";
+$path = "content12.txt";
 
 $file = fopen($path, 'r');
 while (!feof($file))

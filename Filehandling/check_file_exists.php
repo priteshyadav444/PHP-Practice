@@ -1,4 +1,4 @@
 <?php
 
-$path = "Filehandling/new1.txt";
+$path = "content12.txt";
 var_dump(file_exists($path));

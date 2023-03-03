@@ -3,10 +3,11 @@
 // $data = fread($file, filesize($file));
 // print_r($data);
 // fclose($file);
-$url = "https://docs.google.com/document/u/0/";
 
-// $data = file($url);
+$url = "https://priteshyadav444.in/";
+
+
 $data = file_get_contents($url);
-$file = fopen("content.txt", 'w');
+$file = fopen("content.html", 'w');
 fwrite($file, $data);
 fclose($file);
