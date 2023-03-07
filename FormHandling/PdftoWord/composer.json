@@ -1,0 +1,17 @@
+{
+    "name": "priteshyadav444/pdf",
+    "autoload": {
+        "psr-4": {
+            "Pdf\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Pritesh Yadav",
+            "email": "priteshyadav2015@gmail.com"
+        }
+    ],
+    "require": {
+        "ilovepdf/ilovepdf-php": "^1.2"
+    }
+}
