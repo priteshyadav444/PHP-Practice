@@ -1,0 +1,17 @@
+{
+    "name": "priteshyadav444/redis",
+    "autoload": {
+        "psr-4": {
+            "Priteshyadav444\\Redis\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Pritesh Yadav",
+            "email": "priteshyadav2015@gmail.com"
+        }
+    ],
+    "require": {
+        "predis/predis": "^2.1"
+    }
+}
