@@ -13,20 +13,18 @@ $mail = new PHPMailer(true);
 
 try {
     //Server settings
-    $mail->SMTPDebug = SMTP::DEBUG_LOWLEVEL;                      //Enable verbose debug output
+    $mail->SMTPDebug = SMTP::DEBUG_OFF;                      //Enable verbose debug output
     $mail->isSMTP();                                            //Send using SMTP
     $mail->Host       = "smtp-relay.sendinblue.com";                     //Set the SMTP server to send through
     $mail->SMTPAuth   = true;                                   //Enable SMTP authentication
     $mail->Username   = "pritesh.kody@gmail.com";                      //SMTP username
     $mail->Password   =  $password;                               //SMTP password
-    // $mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS;            //Enable implicit TLS encryption
+    $mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS;            //Enable implicit TLS encryption
     $mail->Port       = "587";
 
     //Attachments
     $mail->addAttachment('invoice.pdf');
 
-
-    //Recipients
 
 
     //Content
@@ -39,16 +37,17 @@ try {
 
     $start_time = microtime(true);
 
+    $mail->setFrom("no-reply@priteshyadav444.in", 'Pritesh Yadav');
+    $mail->addReplyTo("pritesh.kody@gmail.com", 'Pritesh Yadav');
     for ($i = 0; $i < 1; $i++) {
 
-        $mail->setFrom("no-reply-$i@priteshyadav444.in", 'Pritesh Yadav');
-        $mail->addReplyTo('pritesh.kody@gmail.com', 'Pritesh Yadav');
-        var_dump($mail->addAddress("pritesh.kody@gmail.com", 'Pritesh Yadav'));    //Add a recipient
+        var_dump($mail->addAddress("pritesh.kody$i@gmail.com", 'Pritesh Yadav'));    //Add a recipient
 
         if (!$mail->send()) {
             echo 'Message Failed !!!' . PHP_EOL;
             break;
         }
+        $mail->clearAddresses();
         echo 'Message has been sent' . PHP_EOL;
     }
     $end_time = microtime(true);
