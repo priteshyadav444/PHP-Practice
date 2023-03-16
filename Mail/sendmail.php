@@ -19,11 +19,11 @@ try {
     $mail->SMTPAuth   = true;                                   //Enable SMTP authentication
     $mail->Username   = "pritesh.kody@gmail.com";                      //SMTP username
     $mail->Password   =  $password;                               //SMTP password
-    $mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS;            //Enable implicit TLS encryption
+    // $mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS;            //Enable implicit TLS encryption
     $mail->Port       = "587";
 
     //Attachments
-    $mail->addAttachment('invoice.pdf');
+    // $mail->addAttachment('invoice.pdf');
 
 
 
@@ -41,7 +41,7 @@ try {
     $mail->addReplyTo("pritesh.kody@gmail.com", 'Pritesh Yadav');
     for ($i = 0; $i < 1; $i++) {
 
-        var_dump($mail->addAddress("pritesh.kody$i@gmail.com", 'Pritesh Yadav'));    //Add a recipient
+        var_dump($mail->addAddress("pritesh.kody@gmail.com", 'Pritesh Yadav'));    //Add a recipient
 
         if (!$mail->send()) {
             echo 'Message Failed !!!' . PHP_EOL;
